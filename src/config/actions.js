@@ -13,8 +13,8 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY';
  * action creators
  */
 
-export function createAttribute() {
-  return { type: CREATE_ATTRIBUTE };
+export function createAttribute(categoryId) {
+  return { type: CREATE_ATTRIBUTE, categoryId };
 }
 export function expandAttribute(id) {
   return { type: EXPAND_ATTRIBUTE, id };
