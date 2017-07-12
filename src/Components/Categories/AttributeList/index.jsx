@@ -3,11 +3,22 @@ import Collapse from 'rc-collapse';
 import { connect } from 'react-redux';
 import 'rc-collapse/assets/index.css';
 import * as actions from '../../../config/actions';
+import Attribute from './Attribute';
+
+const getHeader = (attribute) => {
+  let header = attribute.name;
+  if (!header) {
+    return 'New attribute';
+  }
+  if (attribute.description) {
+    header += `: ${attribute.description}`;
+  }
+  return header;
+};
 
 const getPanel = attribute => (
-  <Collapse.Panel key={attribute.id} header={attribute.name || 'New attribute'}>
-    Id: {attribute.id}<br />
-    Name: {attribute.name}
+  <Collapse.Panel key={attribute.id} header={getHeader(attribute)}>
+    <Attribute id={attribute.id} />
   </Collapse.Panel>
 );
 
