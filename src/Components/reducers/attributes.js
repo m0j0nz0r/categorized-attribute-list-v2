@@ -3,36 +3,30 @@ import options from './options';
 import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE } from '../actions/actionTypes';
 
 const attributes = (state = initialState.attributes, action) => {
-  const newState = Object.assign(
-    {},
-    state,
-    {
-      form: {
-        options: options(state.form.options, action),
-      },
-    });
+  const newState = { ...state, ...{ form: { options: options(state.form.options, action) } } };
   switch (action.type) {
     case EXPAND_ATTRIBUTE:
       newState.attributeList = state.attributeList.map(attribute =>
         (attribute.id === action.id ?
-          Object.assign({}, attribute, { isDuplicated: !!state.nameDictionary[attribute.name] }) :
+          { ...attribute, ...{ isDuplicated: !!state.nameDictionary[attribute.name] } } :
             attribute));
       newState.currentAttributeId = action.id;
       break;
     case CREATE_ATTRIBUTE:
-      newState.attributeList = state.attributeList
-          .concat([{
-            id: state.nextAttributeId,
-            categoryId: action.categoryId,
-            deviceResourceType: 0,
-          }]);
+      newState.attributeList = [...state.attributeList, ...[
+        {
+          id: state.nextAttributeId,
+          categoryId: action.categoryId,
+          deviceResourceType: 0,
+        },
+      ]];
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
     case UPDATE_ATTRIBUTE:
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
-          const updatedAttribute = Object.assign({}, action.attribute);
+          const updatedAttribute = { ...{}, ...action.attribute };
 
           // Dupplicate name validation.
           if (attribute.name !== action.attribute.name) {
@@ -66,7 +60,7 @@ const attributes = (state = initialState.attributes, action) => {
             }
           }
 
-          return Object.assign({}, attribute, updatedAttribute);
+          return { ...attribute, ...updatedAttribute };
         }
         return attribute;
       });

@@ -92,8 +92,8 @@ const getType = (state, ownProps, attribute) => {
         // Do nothing.
     }
   }
-  return t.struct(Object.assign(
-    {
+  return t.struct({
+    ...{
       name,
       description,
       deviceResourceType,
@@ -101,8 +101,8 @@ const getType = (state, ownProps, attribute) => {
       dataType,
       format,
     },
-    optionalFields,
-  ));
+    ...optionalFields,
+  });
 };
 
 const mapStateToProps = (state, ownProps) => {
