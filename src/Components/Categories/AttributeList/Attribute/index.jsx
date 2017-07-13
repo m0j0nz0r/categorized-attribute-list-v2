@@ -39,11 +39,53 @@ const getType = (state, ownProps, attribute) => {
         break;
       case 'number':
         optionalFields = {
-          minRange: t.Number,
-          maxRange: t.Number,
+          minRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && n < attribute.maxRange),
+          maxRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && n > attribute.minRange),
           unitOfMeasurement: t.String,
-          precision: t.Number,
-          accuracy: t.Number,
+          precision: t.refinement(
+            t.Number,
+            n => !Number.isNaN(Number(n)) && !((attribute.maxRange - attribute.minRange) % n),
+          ),
+          accuracy: t.refinement(
+            t.Number,
+            n => !Number.isNaN(Number(n)) && !((attribute.maxRange - attribute.minRange) % n),
+          ),
+        };
+        optionalFields.minRange.getValidationErrorMessage = (n) => {
+          if (Number.isNaN(Number(n))) {
+            return 'Not a number';
+          }
+          if (n > attribute.maxRange) {
+            return 'Min range is higher than Max Range';
+          }
+          return '';
+        };
+        optionalFields.maxRange.getValidationErrorMessage = (n) => {
+          if (Number.isNaN(Number(n))) {
+            return 'Not a number';
+          }
+          if (n < attribute.minRange) {
+            return 'Min range is higher than Max Range';
+          }
+          return '';
+        };
+        optionalFields.precision.getValidationErrorMessage = (n) => {
+          if (Number.isNaN(Number(n))) {
+            return 'Not a number';
+          }
+          if (((attribute.maxRange - attribute.minRange) % n)) {
+            return 'Does not divide range exactly';
+          }
+          return '';
+        };
+        optionalFields.accuracy.getValidationErrorMessage = (n) => {
+          if (Number.isNaN(Number(n))) {
+            return 'Not a number';
+          }
+          if (((attribute.maxRange - attribute.minRange) % n)) {
+            return 'Does not divide range exactly';
+          }
+          return '';
         };
         break;
       default:

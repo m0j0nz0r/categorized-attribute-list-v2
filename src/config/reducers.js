@@ -35,7 +35,6 @@ const attributes = (state = initialState.attributes, action) => {
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
     case actions.UPDATE_ATTRIBUTE:
-    console.log(action.attribute);
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
@@ -72,6 +71,7 @@ const attributes = (state = initialState.attributes, action) => {
                 updatedAttribute.accuracy = '';
             }
           }
+
           return Object.assign({}, attribute, updatedAttribute);
         }
         return attribute;
