@@ -1,9 +1,18 @@
 import initialState from '../../config/config';
 import options from './options';
+import invalid from './invalid';
 import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE } from '../actions/actionTypes';
 
 const attributes = (state = initialState.attributes, action) => {
-  const newState = { ...state, ...{ form: { options: options(state.form.options, action) } } };
+  const newState = {
+    ...state,
+    ...{
+      invalid: invalid(state.invalid, action),
+      form: {
+        options: options(state.form.options, action),
+      },
+    },
+  };
   switch (action.type) {
     case EXPAND_ATTRIBUTE:
       newState.attributeList = state.attributeList.map(attribute =>
@@ -28,11 +37,18 @@ const attributes = (state = initialState.attributes, action) => {
           const defaultValue = initialState.attributes.defaultValue;
           const updatedAttribute = { ...{}, ...action.attribute };
 
-          // Dupplicate name validation.
+          // Duplicate name validation.
           if (attribute.name !== action.attribute.name) {
             newState.nameDictionary[attribute.name] -= 1;
             updatedAttribute.isDuplicated = !!newState.nameDictionary[action.attribute.name];
-            newState.nameDictionary[action.attribute.name] += 1;
+            if (newState.nameDictionary[action.attribute.name]) {
+              newState.nameDictionary[action.attribute.name] += 1;
+            } else {
+              newState.nameDictionary[action.attribute.name] = 1;
+            }
+            if (newState.nameDictionary[attribute.name] === 0) {
+              delete newState.nameDictionary[attribute.name];
+            }
           }
 
           // Data Type logic.

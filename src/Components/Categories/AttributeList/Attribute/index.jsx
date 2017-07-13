@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
-import { updateAttribute } from '../../../actions/actions';
+import { updateAttribute, addInvalidAttribute, removeInvalidAttribute } from '../../../actions/actions';
 
 const Form = t.form.Form;
 
 const getType = (state, ownProps, attribute) => {
-  const name = t.refinement(t.Number, () => attribute.isDuplicated);
-  name.getValidationErrorMessage = () => (attribute.isDuplicated ? 'Duplicated name' : '');
+  const name = t.refinement(t.String, () => !attribute.isDuplicated);
+  name.getValidationErrorMessage = () => 'Duplicated name';
 
   const description = t.String;
 
@@ -120,9 +120,15 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onChange: (value, path) => {
     if (this.form.getComponent(path)) {
-      this.form.getComponent(path).validate();
+      const validation = this.form.getComponent(path).validate();
+      console.log(validation);
+      if (validation.errors.length) {
+        dispatch(addInvalidAttribute(ownProps.id));
+      } else {
+        dispatch(removeInvalidAttribute(ownProps.id));
+      }
     }
-    return dispatch(updateAttribute(ownProps.id, value));
+    dispatch(updateAttribute(ownProps.id, value));
   },
 });
 

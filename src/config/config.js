@@ -19,6 +19,7 @@ const initialState = {
     selectedCategoryId: 0,
   },
   attributes: {
+    invalid: [],
     defaultValue: {
       name: '',
       description: '',
