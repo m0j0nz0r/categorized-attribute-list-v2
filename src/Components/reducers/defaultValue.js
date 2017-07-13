@@ -1,0 +1,26 @@
+import initialState from '../../config/config';
+import { UPDATE_ATTRIBUTE } from '../actions/actionTypes';
+
+const defaultFields = initialState.attributes.form.options.fields;
+
+const defaultValue = (state = defaultFields.defaultValue, action) => {
+  let updatedAttribute = Object.assign(state, action.attribute);
+  switch (action.type) {
+    case UPDATE_ATTRIBUTE:
+      // Data type logic.
+      switch (action.attribute.dataType) {
+        case 'string':
+        case 'object':
+          updatedAttribute = Object.assign({}, updatedAttribute, { disabled: action.attribute.dataType === 'object' });
+          break;
+        default:
+          // Do nothing.
+      }
+      break;
+    default:
+      // Do nothing.
+  }
+  return updatedAttribute;
+};
+
+export default defaultValue;

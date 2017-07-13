@@ -1,3 +1,5 @@
+import Enumerations from '../Components/Categories/AttributeList/Attribute/Enumerations';
+
 const initialState = {
   categories: {
     categoryList: [
@@ -116,6 +118,7 @@ const initialState = {
             nullOption: false,
           },
           enumerations: {
+            template: Enumerations,
             label: 'Enumerations',
             attrs: {
               placeholder: 'Enter value',

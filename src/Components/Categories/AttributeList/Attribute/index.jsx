@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
-import * as actions from '../../../../config/actions';
+import { updateAttribute } from '../../../actions/actions';
 
 const Form = t.form.Form;
 
@@ -122,7 +122,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if (this.form.getComponent(path)) {
       this.form.getComponent(path).validate();
     }
-    return dispatch(actions.updateAttribute(ownProps.id, value));
+    return dispatch(updateAttribute(ownProps.id, value));
   },
 });
 

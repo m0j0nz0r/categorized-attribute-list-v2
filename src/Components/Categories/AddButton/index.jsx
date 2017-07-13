@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../../config/actions';
+import { createAttribute } from '../../actions/actions';
 
 const buttonComponent = ({ onClick, selectedCategoryId }) => (
   <button onClick={onClick(selectedCategoryId)}>
@@ -11,7 +11,7 @@ const buttonComponent = ({ onClick, selectedCategoryId }) => (
 const mapStateToProps = state => ({ selectedCategoryId: state.categories.selectedCategoryId });
 
 const mapDispatchToProps = dispatch => ({
-  onClick: selectedCategoryId => () => dispatch(actions.createAttribute(selectedCategoryId)),
+  onClick: selectedCategoryId => () => dispatch(createAttribute(selectedCategoryId)),
 });
 
 const AddButton = connect(mapStateToProps, mapDispatchToProps)(buttonComponent);

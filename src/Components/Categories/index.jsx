@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import 'react-tabs/style/react-tabs.css';
 import AttributeList from './AttributeList';
 import AddButton from './AddButton';
-import * as actions from '../../config/actions';
+import { selectCategory } from '../actions/actions';
 
 const makeTabs = tabList => tabList.map(tab => <Tab key={`tab-${tab.id}`}>{tab.name}</Tab>);
 
@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   selectedIndex: state.categories.selectedCategoryId,
 });
 const mapDispatchToProps = dispatch => ({
-  onSelect: index => dispatch(actions.selectCategory(index)),
+  onSelect: index => dispatch(selectCategory(index)),
 });
 
 const Categories = connect(mapStateToProps, mapDispatchToProps)(Tabs);

@@ -2,7 +2,7 @@ import React from 'react';
 import Collapse from 'rc-collapse';
 import { connect } from 'react-redux';
 import 'rc-collapse/assets/index.css';
-import * as actions from '../../../config/actions';
+import { expandAttribute } from '../../actions/actions';
 import Attribute from './Attribute';
 
 const getHeader = (attribute) => {
@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onChange: key => dispatch(actions.expandAttribute(key)),
+  onChange: key => dispatch(expandAttribute(key)),
 });
 
 const AttributeList = connect(mapStateToProps, mapDispatchToProps)(Collapse);

@@ -1,12 +1,6 @@
-import { combineReducers } from 'redux';
-import initialState from './config';
-import * as actions from './actions';
-import fields from './fieldsReducer';
-
-const options = (state = initialState.attributes.form.options, action) => {
-  const updatedState = Object.assign({}, state, { fields: fields(state.fields, action) });
-  return updatedState;
-};
+import initialState from '../../config/config';
+import options from './options';
+import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE } from '../actions/actionTypes';
 
 const attributes = (state = initialState.attributes, action) => {
   const newState = Object.assign(
@@ -18,14 +12,14 @@ const attributes = (state = initialState.attributes, action) => {
       },
     });
   switch (action.type) {
-    case actions.EXPAND_ATTRIBUTE:
+    case EXPAND_ATTRIBUTE:
       newState.attributeList = state.attributeList.map(attribute =>
         (attribute.id === action.id ?
           Object.assign({}, attribute, { isDuplicated: !!state.nameDictionary[attribute.name] }) :
             attribute));
       newState.currentAttributeId = action.id;
       break;
-    case actions.CREATE_ATTRIBUTE:
+    case CREATE_ATTRIBUTE:
       newState.attributeList = state.attributeList
           .concat([{
             id: state.nextAttributeId,
@@ -34,7 +28,7 @@ const attributes = (state = initialState.attributes, action) => {
           }]);
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
-    case actions.UPDATE_ATTRIBUTE:
+    case UPDATE_ATTRIBUTE:
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
@@ -83,16 +77,4 @@ const attributes = (state = initialState.attributes, action) => {
   return newState;
 };
 
-const categories = (state = initialState.categories, action) => {
-  switch (action.type) {
-    case actions.SELECT_CATEGORY:
-      return Object.assign({}, state, { selectedCategoryId: action.id });
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  attributes,
-  categories,
-});
+export default attributes;
