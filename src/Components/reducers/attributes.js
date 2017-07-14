@@ -7,7 +7,6 @@ const attributes = (state = initialState.attributes, action) => {
   const newState = {
     ...state,
     ...{
-      invalid: invalid(state.invalid, action),
       form: {
         options: options(state.form.options, action),
       },
@@ -35,7 +34,7 @@ const attributes = (state = initialState.attributes, action) => {
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
-          const updatedAttribute = { ...{}, ...action.attribute };
+          let updatedAttribute = { ...{}, ...action.attribute };
 
           // Duplicate name validation.
           if (attribute.name !== action.attribute.name) {
@@ -50,6 +49,7 @@ const attributes = (state = initialState.attributes, action) => {
               delete newState.nameDictionary[attribute.name];
             }
           }
+          updatedAttribute.isValid = action.attribute.isValid && !updatedAttribute.isDuplicated;
 
           // Data Type logic.
           if (attribute.dataType !== action.attribute.dataType) {
@@ -75,7 +75,11 @@ const attributes = (state = initialState.attributes, action) => {
                 updatedAttribute.accuracy = '';
             }
           }
-
+          updatedAttribute = { ...attribute, ...updatedAttribute };
+          newState.invalid = invalid(
+            newState.invalid,
+            { ...action, ...{ attribute: updatedAttribute } },
+          );
           return { ...attribute, ...updatedAttribute };
         }
         return attribute;

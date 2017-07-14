@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
-import { updateAttribute, addInvalidAttribute, removeInvalidAttribute } from '../../../actions/actions';
+import { updateAttribute } from '../../../actions/actions';
 
 const Form = t.form.Form;
 
@@ -8,11 +8,11 @@ const getType = (state, ownProps, attribute) => {
   const name = t.refinement(t.String, () => !attribute.isDuplicated);
   name.getValidationErrorMessage = () => 'Duplicated name';
 
-  const description = t.String;
+  const description = t.maybe(t.String);
 
   const deviceResourceType = t.enums({ 0: 'DefaultValue' });
 
-  const defaultValue = t.String;
+  const defaultValue = t.maybe(t.String);
 
   const dataType = t.enums({
     string: 'String',
@@ -118,17 +118,19 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onChange: (value, path) => {
-    if (this.form.getComponent(path)) {
-      const validation = this.form.getComponent(path).validate();
-      console.log(validation);
-      if (validation.errors.length) {
-        dispatch(addInvalidAttribute(ownProps.id));
-      } else {
-        dispatch(removeInvalidAttribute(ownProps.id));
-      }
-    }
-    dispatch(updateAttribute(ownProps.id, value));
+  onChange: (value) => {
+    let newValue = value;
+    const validation = this.form.validate();
+    // Ignore duplicated name errors.
+    // Those are handled internally by the reducer to prevent unneccesary dispatch calls.
+    const errors = validation.errors.filter(e => e.path[0] !== 'name');
+    newValue = {
+      ...newValue,
+      ...{
+        isValid: errors.length === 0,
+      },
+    };
+    dispatch(updateAttribute(ownProps.id, newValue));
   },
 });
 
