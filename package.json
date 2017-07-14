@@ -8,7 +8,7 @@
     "rc-collapse": "^1.7.6",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-json-view": "^1.10.2",
+    "react-json-view": "^1.10.7",
     "react-redux": "^5.0.5",
     "react-scripts": "1.0.10",
     "react-tabs": "^1.1.0",

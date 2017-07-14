@@ -1,7 +1,7 @@
 import initialState from '../../config/config';
 import options from './options';
 import invalid from './invalid';
-import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE } from '../actions/actionTypes';
+import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE } from '../actions/actionTypes';
 
 const attributes = (state = initialState.attributes, action) => {
   const newState = {
@@ -12,44 +12,75 @@ const attributes = (state = initialState.attributes, action) => {
       },
     },
   };
+  let index;
+  let name;
+  let updatedAttribute;
   switch (action.type) {
     case EXPAND_ATTRIBUTE:
       newState.attributeList = state.attributeList.map(attribute =>
-        (attribute.id === action.id ?
-          { ...attribute, ...{ isDuplicated: !!state.nameDictionary[attribute.name] } } :
-            attribute));
+        (attribute.id === Number(action.id) ?
+        {
+          ...attribute,
+          ...{
+            isDuplicated: state.nameDictionary[attribute.name] > 1,
+          },
+        } :
+        attribute));
       newState.currentAttributeId = action.id;
       break;
     case CREATE_ATTRIBUTE:
       newState.attributeList = [...state.attributeList, ...[
         {
-          id: state.nextAttributeId,
-          categoryId: action.categoryId,
-          deviceResourceType: 0,
+          ...{
+            id: state.nextAttributeId,
+            categoryId: action.categoryId,
+          },
+          ...initialState.attributes.defaultValue,
         },
       ]];
+      newState.currentAttributeId = state.nextAttributeId.toString();
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
     case UPDATE_ATTRIBUTE:
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
-          let updatedAttribute = { ...{}, ...action.attribute };
+          updatedAttribute = { ...action.attribute };
 
           // Duplicate name validation.
           if (attribute.name !== action.attribute.name) {
-            newState.nameDictionary[attribute.name] -= 1;
-            updatedAttribute.isDuplicated = !!newState.nameDictionary[action.attribute.name];
-            if (newState.nameDictionary[action.attribute.name]) {
-              newState.nameDictionary[action.attribute.name] += 1;
-            } else {
-              newState.nameDictionary[action.attribute.name] = 1;
+            newState.nameDictionary = { ...newState.nameDictionary };
+            let sameNameIds = newState.nameDictionary[attribute.name];
+            if (sameNameIds) {
+              if (sameNameIds.length > 0) {
+                index = sameNameIds.indexOf(attribute.id);
+                if (index !== -1) {
+                  sameNameIds = [
+                    ...sameNameIds.slice(0, index),
+                    ...sameNameIds.slice(index + 1),
+                  ];
+                }
+              }
+              if (!sameNameIds.length) {
+                delete newState.nameDictionary[attribute.name];
+              } else {
+                newState.nameDictionary[attribute.name] = sameNameIds;
+              }
             }
-            if (newState.nameDictionary[attribute.name] === 0) {
-              delete newState.nameDictionary[attribute.name];
+
+            sameNameIds = newState.nameDictionary[action.attribute.name];
+            if (!sameNameIds) {
+              newState.nameDictionary[action.attribute.name] = [action.id];
+            } else {
+              index = sameNameIds.indexOf(action.id);
+              if (index === -1) {
+                newState.nameDictionary[action.attribute.name] = [
+                  ...sameNameIds,
+                  ...[action.id],
+                ];
+              }
             }
           }
-          updatedAttribute.isValid = action.attribute.isValid && !updatedAttribute.isDuplicated;
 
           // Data Type logic.
           if (attribute.dataType !== action.attribute.dataType) {
@@ -76,14 +107,57 @@ const attributes = (state = initialState.attributes, action) => {
             }
           }
           updatedAttribute = { ...attribute, ...updatedAttribute };
-          newState.invalid = invalid(
-            newState.invalid,
-            { ...action, ...{ attribute: updatedAttribute } },
-          );
           return { ...attribute, ...updatedAttribute };
         }
         return attribute;
       });
+      newState.attributeList = newState.attributeList.map((attribute) => {
+        updatedAttribute = {
+          ...attribute,
+          ...{
+            isDuplicated: newState.nameDictionary[attribute.name].length > 1,
+          },
+        };
+        newState.invalid = invalid(
+          newState.invalid,
+          { ...action, ...{ attribute: updatedAttribute } },
+        );
+        return updatedAttribute;
+      });
+      break;
+    case DELETE_ATTRIBUTE:
+      index = state.attributeList.findIndex(a => a.id === Number(action.id));
+      if (index !== -1) {
+        name = newState.attributeList[index].name;
+        newState.nameDictionary = { ...newState.nameDictionary };
+        let sameNameIds = newState.nameDictionary[name];
+        if (sameNameIds) {
+          if (sameNameIds.length > 0) {
+            index = sameNameIds.indexOf(action.id);
+            if (index !== -1) {
+              sameNameIds = [
+                ...sameNameIds.slice(0, index),
+                ...sameNameIds.slice(index + 1),
+              ];
+            }
+          }
+          if (!sameNameIds.length) {
+            delete newState.nameDictionary[name];
+          } else {
+            newState.nameDictionary[name] = sameNameIds;
+          }
+        }
+
+        newState.attributeList = [
+          ...state.attributeList.slice(0, index),
+          ...state.attributeList.slice(index + 1),
+        ];
+        index = state.invalid.indexOf(action.id);
+        newState.invalid = [
+          ...state.invalid.slice(0, index),
+          ...state.invalid.slice(index + 1),
+        ];
+      }
       break;
     default:
       // do nothing.

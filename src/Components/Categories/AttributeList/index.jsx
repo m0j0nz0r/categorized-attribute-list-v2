@@ -2,6 +2,7 @@ import React from 'react';
 import Collapse from 'rc-collapse';
 import { connect } from 'react-redux';
 import 'rc-collapse/assets/index.css';
+import DeleteButton from '../DeleteButton';
 import { expandAttribute } from '../../actions/actions';
 import Attribute from './Attribute';
 
@@ -19,6 +20,7 @@ const getHeader = (attribute) => {
 const getPanel = attribute => (
   <Collapse.Panel key={attribute.id} header={getHeader(attribute)}>
     <Attribute id={attribute.id} />
+    <DeleteButton />
   </Collapse.Panel>
 );
 

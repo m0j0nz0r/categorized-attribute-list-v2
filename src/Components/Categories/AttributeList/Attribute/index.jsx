@@ -5,8 +5,22 @@ import { updateAttribute } from '../../../actions/actions';
 const Form = t.form.Form;
 
 const getType = (state, ownProps, attribute) => {
-  const name = t.refinement(t.String, () => !attribute.isDuplicated);
-  name.getValidationErrorMessage = () => 'Duplicated name';
+  const name = t.refinement(
+    t.String,
+    n => state.attributes.nameDictionary[n] &&
+    state.attributes.nameDictionary[n].filter(
+      e => e !== attribute.id).length === 0,
+    );
+  name.getValidationErrorMessage = (n) => {
+    if (!n) {
+      return 'Required';
+    }
+    if (state.attributes.nameDictionary[n] && state.attributes.nameDictionary[n].filter(
+      e => e !== attribute.id).length > 0) {
+      return 'Duplicated';
+    }
+    return '';
+  };
 
   const description = t.maybe(t.String);
 
@@ -92,6 +106,7 @@ const getType = (state, ownProps, attribute) => {
         // Do nothing.
     }
   }
+
   return t.struct({
     ...{
       name,
@@ -117,21 +132,19 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onChange: (value) => {
-    let newValue = value;
-    const validation = this.form.validate();
-    // Ignore duplicated name errors.
-    // Those are handled internally by the reducer to prevent unneccesary dispatch calls.
-    const errors = validation.errors.filter(e => e.path[0] !== 'name');
-    newValue = {
-      ...newValue,
-      ...{
-        isValid: errors.length === 0,
-      },
-    };
-    dispatch(updateAttribute(ownProps.id, newValue));
-  },
+const onChange = (value, dispatch) => {
+  const validation = this.form.validate();
+  const newValue = {
+    ...value,
+    ...{
+      errors: validation.errors,
+    },
+  };
+  dispatch(updateAttribute(newValue.id, newValue));
+};
+
+const mapDispatchToProps = dispatch => ({
+  onChange: value => onChange(value, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

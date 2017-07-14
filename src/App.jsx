@@ -1,15 +1,23 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux';
+import ReactJson from 'react-json-view';
 import './App.css';
 import attributeList from './Components/reducers';
 import Categories from './Components/Categories';
 
 const store = createStore(attributeList);
 
+const Json = connect(
+  state => ({ src: state.attributes.attributeList, className: 'col-6' }),
+)(ReactJson);
+
 function App() {
   return (<Provider store={store}>
-    <Categories />
+    <div className="row">
+      <Categories />
+      <Json />
+    </div>
   </Provider>);
 }
 

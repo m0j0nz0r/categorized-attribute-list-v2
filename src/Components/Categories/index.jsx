@@ -8,7 +8,7 @@ import { selectCategory } from '../actions/actions';
 
 const SaveButton = connect(
   state => ({ disabled: state.attributes.invalid.length > 0 }),
-)(({ disabled }) => <button disabled={disabled}>Save</button>);
+)(({ disabled }) => <button className="btn btn-success" disabled={disabled}>Save</button>);
 
 const makeTabs = tabList => tabList.map(tab => <Tab key={`tab-${tab.id}`}>{tab.name}</Tab>);
 
@@ -27,6 +27,7 @@ const makeTabsChildren = categories => [
 const mapStateToProps = state => ({
   children: makeTabsChildren(state.categories.categoryList),
   selectedIndex: state.categories.selectedCategoryId,
+  className: 'col-6',
 });
 const mapDispatchToProps = dispatch => ({
   onSelect: index => dispatch(selectCategory(index)),

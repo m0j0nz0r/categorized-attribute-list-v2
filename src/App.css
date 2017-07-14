@@ -22,3 +22,7 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.error-block{
+  font-size: small;
+  color: red;
+}

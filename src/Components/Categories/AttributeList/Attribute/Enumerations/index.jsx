@@ -1,8 +1,9 @@
 import React from 'react';
 
 export default (locals) => {
+  let input;
   const addItem = () => {
-    const value = this.input.value;
+    const value = input.value;
     if (value) {
       locals.onChange(
         [...locals.value, ...[value]],
@@ -10,18 +11,19 @@ export default (locals) => {
         [...locals.path, ...['']],
         'add',
       );
-      this.input.value = '';
+      input.value = '';
     }
   };
   return (
     <div>
-      <input ref={(input) => { this.input = input; }} type="string" />
+      <input ref={(element) => { input = element; }} type="string" />
       <button type={locals.add.type} onClick={addItem}>{locals.add.label}</button>
       {locals.items.map(
         (i, index) => (
           <div key={i.key}>
             <button type={i.buttons[0].type} onClick={i.buttons[0].click}>x</button>
             {locals.value[index]}
+            <div style={{ display: 'none' }}>{i.input}</div>
           </div>
         ),
       )}
