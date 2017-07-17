@@ -1,4 +1,5 @@
 import t from 'tcomb-form';
+import setNumberValidationMessages from './getValidation';
 
 export default (attributes, attribute) => {
   const name = t.refinement(
@@ -59,42 +60,7 @@ export default (attributes, attribute) => {
             n => !Number.isNaN(Number(n)) && !((maxRange - minRange) % n),
           ),
         };
-        optionalFields.minRange.getValidationErrorMessage = (n) => {
-          if (Number.isNaN(Number(n))) {
-            return 'Not a number';
-          }
-          if (n > maxRange) {
-            return 'Min range is higher than Max Range';
-          }
-          return '';
-        };
-        optionalFields.maxRange.getValidationErrorMessage = (n) => {
-          if (Number.isNaN(Number(n))) {
-            return 'Not a number';
-          }
-          if (n < minRange) {
-            return 'Min range is higher than Max Range';
-          }
-          return '';
-        };
-        optionalFields.precision.getValidationErrorMessage = (n) => {
-          if (Number.isNaN(Number(n))) {
-            return 'Not a number';
-          }
-          if (((maxRange - minRange) % n)) {
-            return 'Does not divide range exactly';
-          }
-          return '';
-        };
-        optionalFields.accuracy.getValidationErrorMessage = (n) => {
-          if (Number.isNaN(Number(n))) {
-            return 'Not a number';
-          }
-          if (((maxRange - minRange) % n)) {
-            return 'Does not divide range exactly';
-          }
-          return '';
-        };
+        setNumberValidationMessages(optionalFields, attribute);
         break;
       default:
         // Do nothing.
