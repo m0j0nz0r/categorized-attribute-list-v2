@@ -8,7 +8,7 @@ import { selectCategory } from '../actions/actions';
 
 const SaveButton = connect(
   state => ({ disabled: state.attributes.invalid.length > 0 }),
-)(({ disabled }) => <button className="btn btn-success" disabled={disabled}>Save</button>);
+)(({ disabled }) => <button className={`material-icons btn ${disabled ? 'btn-default active' : 'btn-success'}`} disabled={disabled}>save</button>);
 
 const makeTabs = tabList => tabList.map(tab => <Tab key={`tab-${tab.id}`}>{tab.name}</Tab>);
 

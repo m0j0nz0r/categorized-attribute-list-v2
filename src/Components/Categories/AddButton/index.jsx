@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { createAttribute } from '../../actions/actions';
 
 const buttonComponent = ({ onClick, selectedCategoryId }) => (
-  <button className="btn btn-primary" onClick={onClick(selectedCategoryId)}>
-    Add attribute
+  <button className="btn btn-primary material-icons" onClick={onClick(selectedCategoryId)}>
+    add
   </button>
 );
 

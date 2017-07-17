@@ -24,8 +24,9 @@ const getPanel = attribute => (
   </Collapse.Panel>
 );
 
-const getVisibleAttributes = (attributes, categoryId) =>
-  attributes.filter(attribute => attribute.categoryId === categoryId);
+const getVisibleAttributes = (attributes, categoryId) => {
+  return attributes.filter(attribute => attribute.categoryId === categoryId);
+};
 
 const mapStateToProps = state => ({
   accordion: true,
@@ -40,6 +41,31 @@ const mapDispatchToProps = dispatch => ({
   onChange: key => dispatch(expandAttribute(key)),
 });
 
-const AttributeList = connect(mapStateToProps, mapDispatchToProps)(Collapse);
+const CollapseWrapper = ({ attributeList }) => {
+  if (attributeList.length) {
+    const CollapseElement = connect(mapStateToProps, mapDispatchToProps)(Collapse);
+    return <CollapseElement />;
+  }
+  return (
+    <div
+      className="rc-collapse"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '24px',
+        color: 'gray',
+      }}
+    >
+      No attributes in current category
+    </div>
+  );
+};
+const AttributeList = connect(
+  state => ({ attributeList: getVisibleAttributes(
+    state.attributes.attributeList,
+    state.categories.selectedCategoryId,
+  ) }),
+)(CollapseWrapper);
 
 export default AttributeList;

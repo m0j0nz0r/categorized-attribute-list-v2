@@ -29,6 +29,7 @@ const attributes = (state = initialState.attributes, action) => {
         },
       ]];
       newState.currentAttributeId = state.nextAttributeId.toString();
+      newState.invalid = [...newState.invalid, ...[state.nextAttributeId]];
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
     case UPDATE_ATTRIBUTE:

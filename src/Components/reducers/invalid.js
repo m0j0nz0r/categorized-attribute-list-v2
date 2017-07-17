@@ -11,7 +11,7 @@ const invalid = (state = initialState.attributes.invalid, action) => {
     case DELETE_ATTRIBUTE:
       action.list.forEach(
         (a) => {
-          hasError = a.errors.filter(e => e.message !== 'Duplicated').length;
+          hasError = a.errors && a.errors.filter(e => e.message !== 'Duplicated').length;
           if (hasError && index === -1) {
             newState.push(a.id);
           } else if (!hasError && index !== -1) {

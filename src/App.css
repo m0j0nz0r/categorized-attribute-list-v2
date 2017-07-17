@@ -26,3 +26,18 @@
   font-size: small;
   color: red;
 }
+.rc-collapse {
+  height: 80vh;
+  overflow-y: auto;
+}
+.react-json-view{
+  height: 95vh;
+  overflow-y: auto;
+}
+.btn {
+  margin: 10px;
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  padding: 0;
+}
