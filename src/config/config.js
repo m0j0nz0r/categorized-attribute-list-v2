@@ -35,8 +35,6 @@ const initialState = {
       accuracy: '1',
     },
     nextAttributeId: 0,
-    nameDictionary: {
-    },
     attributeList: [],
     form: {
       options: {

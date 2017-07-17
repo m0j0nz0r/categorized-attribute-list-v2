@@ -1,22 +1,20 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
 import { updateAttribute } from '../../../actions/actions';
 
 const Form = t.form.Form;
 
-const getType = (state, ownProps, attribute) => {
+const getType = (attributes, attribute) => {
   const name = t.refinement(
     t.String,
-    n => state.attributes.nameDictionary[n] &&
-    state.attributes.nameDictionary[n].filter(
-      e => e !== attribute.id).length === 0,
+    n => !attributes.find(a => a.name === n && a.id !== attribute.id),
     );
   name.getValidationErrorMessage = (n) => {
     if (!n) {
       return 'Required';
     }
-    if (state.attributes.nameDictionary[n] && state.attributes.nameDictionary[n].filter(
-      e => e !== attribute.id).length > 0) {
+    if (attributes.find(a => a.name === n && a.id !== attribute.id)) {
       return 'Duplicated';
     }
     return '';
@@ -125,26 +123,56 @@ const mapStateToProps = (state, ownProps) => {
     currentAttribute => currentAttribute.id === ownProps.id,
   );
   return {
-    type: getType(state, ownProps, attribute),
+    currentAttributeId: state.attributes.currentAttributeId,
+    type: getType(state.attributes.attributeList, attribute),
     options: state.attributes.form.options,
     value: attribute,
     ref: (form) => { this.form = form; },
   };
 };
 
-const onChange = (value, dispatch) => {
-  const validation = this.form.validate();
+const onChange = (value, dispatch, form) => {
+  const validation = form.validate();
   const newValue = {
     ...value,
     ...{
-      errors: validation.errors,
+      errors: validation.errors.filter(e => e.message),
     },
   };
   dispatch(updateAttribute(newValue.id, newValue));
 };
 
 const mapDispatchToProps = dispatch => ({
-  onChange: value => onChange(value, dispatch),
+  onChange: (value, form) => onChange(value, dispatch, form),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+class FormWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+  componentDidUpdate(prevProps) {
+    // If we are coming onto this attribute from another, revalidate.
+    if (Number(this.props.currentAttributeId) === this.props.value.id &&
+      this.props.currentAttributeId !== prevProps.currentAttributeId) {
+      this.onChange(this.props.value);
+    }
+  }
+
+  onChange(value) {
+    this.props.onChange(value, this.form);
+  }
+  render() {
+    return (
+      <Form
+        onChange={this.onChange}
+        type={this.props.type}
+        options={this.props.options}
+        value={this.props.value}
+        ref={(form) => { this.form = form; }}
+      />
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormWrapper);

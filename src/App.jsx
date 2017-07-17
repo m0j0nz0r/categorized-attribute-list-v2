@@ -9,7 +9,13 @@ import Categories from './Components/Categories';
 const store = createStore(attributeList);
 
 const Json = connect(
-  state => ({ src: state.attributes.attributeList, className: 'col-6' }),
+  state => ({ src: state.attributes.attributeList.map((a) => {
+    const attribute = { ...a };
+    delete attribute.errors;
+    return attribute;
+  }),
+    className: 'col-6',
+  }),
 )(ReactJson);
 
 function App() {

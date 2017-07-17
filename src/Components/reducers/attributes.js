@@ -13,19 +13,9 @@ const attributes = (state = initialState.attributes, action) => {
     },
   };
   let index;
-  let name;
   let updatedAttribute;
   switch (action.type) {
     case EXPAND_ATTRIBUTE:
-      newState.attributeList = state.attributeList.map(attribute =>
-        (attribute.id === Number(action.id) ?
-        {
-          ...attribute,
-          ...{
-            isDuplicated: state.nameDictionary[attribute.name] > 1,
-          },
-        } :
-        attribute));
       newState.currentAttributeId = action.id;
       break;
     case CREATE_ATTRIBUTE:
@@ -46,41 +36,6 @@ const attributes = (state = initialState.attributes, action) => {
         if (attribute.id === action.id) {
           const defaultValue = initialState.attributes.defaultValue;
           updatedAttribute = { ...action.attribute };
-
-          // Duplicate name validation.
-          if (attribute.name !== action.attribute.name) {
-            newState.nameDictionary = { ...newState.nameDictionary };
-            let sameNameIds = newState.nameDictionary[attribute.name];
-            if (sameNameIds) {
-              if (sameNameIds.length > 0) {
-                index = sameNameIds.indexOf(attribute.id);
-                if (index !== -1) {
-                  sameNameIds = [
-                    ...sameNameIds.slice(0, index),
-                    ...sameNameIds.slice(index + 1),
-                  ];
-                }
-              }
-              if (!sameNameIds.length) {
-                delete newState.nameDictionary[attribute.name];
-              } else {
-                newState.nameDictionary[attribute.name] = sameNameIds;
-              }
-            }
-
-            sameNameIds = newState.nameDictionary[action.attribute.name];
-            if (!sameNameIds) {
-              newState.nameDictionary[action.attribute.name] = [action.id];
-            } else {
-              index = sameNameIds.indexOf(action.id);
-              if (index === -1) {
-                newState.nameDictionary[action.attribute.name] = [
-                  ...sameNameIds,
-                  ...[action.id],
-                ];
-              }
-            }
-          }
 
           // Data Type logic.
           if (attribute.dataType !== action.attribute.dataType) {
@@ -111,52 +66,23 @@ const attributes = (state = initialState.attributes, action) => {
         }
         return attribute;
       });
-      newState.attributeList = newState.attributeList.map((attribute) => {
-        updatedAttribute = {
-          ...attribute,
-          ...{
-            isDuplicated: newState.nameDictionary[attribute.name].length > 1,
-          },
-        };
-        newState.invalid = invalid(
-          newState.invalid,
-          { ...action, ...{ attribute: updatedAttribute } },
-        );
-        return updatedAttribute;
-      });
+      newState.invalid = invalid(
+        newState.invalid,
+        { ...action, ...{ list: newState.attributeList } },
+      );
       break;
     case DELETE_ATTRIBUTE:
       index = state.attributeList.findIndex(a => a.id === Number(action.id));
       if (index !== -1) {
-        name = newState.attributeList[index].name;
-        newState.nameDictionary = { ...newState.nameDictionary };
-        let sameNameIds = newState.nameDictionary[name];
-        if (sameNameIds) {
-          if (sameNameIds.length > 0) {
-            index = sameNameIds.indexOf(action.id);
-            if (index !== -1) {
-              sameNameIds = [
-                ...sameNameIds.slice(0, index),
-                ...sameNameIds.slice(index + 1),
-              ];
-            }
-          }
-          if (!sameNameIds.length) {
-            delete newState.nameDictionary[name];
-          } else {
-            newState.nameDictionary[name] = sameNameIds;
-          }
-        }
-
         newState.attributeList = [
           ...state.attributeList.slice(0, index),
           ...state.attributeList.slice(index + 1),
         ];
         index = state.invalid.indexOf(action.id);
-        newState.invalid = [
-          ...state.invalid.slice(0, index),
-          ...state.invalid.slice(index + 1),
-        ];
+        newState.invalid = invalid(
+          newState.invalid,
+          { ...action, ...{ list: newState.attributeList } },
+        );
       }
       break;
     default:
