@@ -1,7 +1,7 @@
-import initialState from '../../config/config';
+import { optionsInitialState } from '../../config/config';
 import fields from './fieldsReducer';
 
-const options = (state = initialState.attributes.form.options, action) => {
+const options = (state = optionsInitialState, action) => {
   const updatedState = { ...state, ...{ fields: fields(state.fields, action) } };
   return updatedState;
 };

@@ -7,14 +7,14 @@ import { expandAttribute } from '../../actions/actions';
 import Attribute from './Attribute';
 
 const getHeader = (attribute) => {
-  let header = attribute.name;
-  if (!header) {
+  const { name, description } = attribute;
+  if (!name) {
     return 'New attribute';
   }
-  if (attribute.description) {
-    header += `: ${attribute.description}`;
+  if (description) {
+    return `${name}: ${description}`;
   }
-  return header;
+  return name;
 };
 
 const getPanel = attribute => (
@@ -49,14 +49,7 @@ const CollapseWrapper = ({ attributeList }) => {
   }
   return (
     <div
-      className="rc-collapse"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '24px',
-        color: 'gray',
-      }}
+      className="rc-collapse empty-message"
     >
       No attributes in current category
     </div>

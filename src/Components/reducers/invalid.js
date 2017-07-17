@@ -1,7 +1,7 @@
-import initialState from '../../config/config';
+import { attributesInitialState } from '../../config/config';
 import { UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE } from '../actions/actionTypes';
 
-const invalid = (state = initialState.attributes.invalid, action) => {
+const invalid = (state = attributesInitialState.invalid, action) => {
   const dictionary = {};
   const newState = [];
   let index = state.indexOf(action.id);

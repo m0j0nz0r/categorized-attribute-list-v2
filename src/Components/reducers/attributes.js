@@ -1,9 +1,9 @@
-import initialState from '../../config/config';
+import { attributesInitialState } from '../../config/config';
 import options from './options';
 import invalid from './invalid';
 import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE } from '../actions/actionTypes';
 
-const attributes = (state = initialState.attributes, action) => {
+const attributes = (state = attributesInitialState, action) => {
   const newState = {
     ...state,
     ...{
@@ -25,7 +25,7 @@ const attributes = (state = initialState.attributes, action) => {
             id: state.nextAttributeId,
             categoryId: action.categoryId,
           },
-          ...initialState.attributes.defaultValue,
+          ...attributesInitialState.defaultValue,
         },
       ]];
       newState.currentAttributeId = state.nextAttributeId.toString();
@@ -35,12 +35,12 @@ const attributes = (state = initialState.attributes, action) => {
     case UPDATE_ATTRIBUTE:
       newState.attributeList = state.attributeList.map((attribute) => {
         if (attribute.id === action.id) {
-          const defaultValue = initialState.attributes.defaultValue;
+          const defaultValue = attributesInitialState.defaultValue;
           updatedAttribute = { ...action.attribute };
 
           // Data Type logic.
           if (attribute.dataType !== action.attribute.dataType) {
-            updatedAttribute.defaultValue = '';
+            updatedAttribute.defaultValue = null;
             updatedAttribute.format = 'none';
           }
 
@@ -55,11 +55,11 @@ const attributes = (state = initialState.attributes, action) => {
                 break;
               default:
                 updatedAttribute.enumerations = [];
-                updatedAttribute.minRange = '';
-                updatedAttribute.maxRange = '';
-                updatedAttribute.unitOfMeasurement = '';
-                updatedAttribute.precision = '';
-                updatedAttribute.accuracy = '';
+                updatedAttribute.minRange = null;
+                updatedAttribute.maxRange = null;
+                updatedAttribute.unitOfMeasurement = null;
+                updatedAttribute.precision = null;
+                updatedAttribute.accuracy = null;
             }
           }
           updatedAttribute = { ...attribute, ...updatedAttribute };

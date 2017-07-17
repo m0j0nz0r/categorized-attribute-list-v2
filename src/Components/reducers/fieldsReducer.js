@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import initialState from '../../config/config';
+import { fieldsInitialState } from '../../config/config';
 
 import defaultValue from './defaultValue';
 import format from './format';
 
-const defaultFields = initialState.attributes.form.options.fields;
+const defaultFields = fieldsInitialState;
 
 const emptyReducerFactory = key => (state = defaultFields[key]) => state;
 

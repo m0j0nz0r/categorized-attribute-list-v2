@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { deleteAttribute } from '../../actions/actions';
 
 const buttonComponent = ({ onClick, attributeId }) => (
-  <button className="btn btn-danger material-icons" style={{ float: 'right' }} onClick={onClick(attributeId)}>
+  <button className="btn btn-danger material-icons delete-button" onClick={onClick(attributeId)}>
     delete_forever
   </button>
 );

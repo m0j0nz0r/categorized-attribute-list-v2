@@ -1,7 +1,7 @@
-import initialState from '../../config/config';
+import { fieldsInitialState } from '../../config/config';
 import { UPDATE_ATTRIBUTE } from '../actions/actionTypes';
 
-const defaultFields = initialState.attributes.form.options.fields;
+const defaultFields = fieldsInitialState;
 
 const format = (state = defaultFields.format, action) => {
   switch (action.type) {
