@@ -24,9 +24,10 @@ const getPanel = attribute => (
   </Collapse.Panel>
 );
 
-const getVisibleAttributes = (attributes, categoryId) => {
-  return attributes.filter(attribute => attribute.categoryId === categoryId);
-};
+const getVisibleAttributes = (
+  attributes,
+  categoryId,
+) => attributes.filter(attribute => attribute.categoryId === categoryId);
 
 const mapStateToProps = state => ({
   accordion: true,
