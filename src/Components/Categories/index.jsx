@@ -5,6 +5,7 @@ import 'react-tabs/style/react-tabs.css';
 import AttributeList from './AttributeList';
 import AddButton from './AddButton';
 import { selectCategory } from '../actions/actions';
+import { ERROR_NO_ATTRIBUTES } from '../../config/strings';
 
 const SaveButton = connect(
   state => ({ disabled: state.attributes.invalid.length > 0 }),
@@ -17,7 +18,7 @@ const makeTabPanels = (tabList, attributes) => tabList.map((tab) => {
     <div
       className="rc-collapse empty-message"
     >
-      No attributes in current category
+      {ERROR_NO_ATTRIBUTES}
     </div>
   );
   if (attributes.filter(a => a.categoryId === tab.id).length) {
