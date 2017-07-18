@@ -37,9 +37,9 @@ const makeTabsChildren = (categories, attributes) => [
   makeTabPanels(categories, attributes),
 ];
 
-const mapStateToProps = state => ({
-  children: makeTabsChildren(state.categories.categoryList, state.attributes.attributeList),
-  selectedIndex: state.categories.selectedCategoryId,
+const mapStateToProps = ({ categories, attributes }) => ({
+  children: makeTabsChildren(categories.categoryList, attributes.attributeList),
+  selectedIndex: categories.selectedCategoryId,
   className: 'col-6',
 });
 const mapDispatchToProps = dispatch => ({
