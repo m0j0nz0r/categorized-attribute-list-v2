@@ -6,10 +6,8 @@ import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE 
 const attributes = (state = attributesInitialState, action) => {
   const newState = {
     ...state,
-    ...{
-      form: {
-        options: options(state.form.options, action),
-      },
+    form: {
+      options: options(state.form.options, action),
     },
   };
   let index;
@@ -21,15 +19,13 @@ const attributes = (state = attributesInitialState, action) => {
     case CREATE_ATTRIBUTE:
       newState.attributeList = [...state.attributeList, ...[
         {
-          ...{
-            id: state.nextAttributeId,
-            categoryId: action.categoryId,
-          },
+          id: state.nextAttributeId,
+          categoryId: action.categoryId,
           ...attributesInitialState.defaultValue,
         },
       ]];
       newState.currentAttributeId = state.nextAttributeId.toString();
-      newState.invalid = [...newState.invalid, ...[state.nextAttributeId]];
+      newState.invalid = [...newState.invalid, state.nextAttributeId];
       newState.nextAttributeId = state.nextAttributeId + 1;
       break;
     case UPDATE_ATTRIBUTE:
@@ -60,7 +56,7 @@ const attributes = (state = attributesInitialState, action) => {
       });
       newState.invalid = invalid(
         newState.invalid,
-        { ...action, ...{ list: newState.attributeList } },
+        { ...action, list: newState.attributeList },
       );
       break;
     case DELETE_ATTRIBUTE:
@@ -73,7 +69,7 @@ const attributes = (state = attributesInitialState, action) => {
         index = state.invalid.indexOf(action.id);
         newState.invalid = invalid(
           newState.invalid,
-          { ...action, ...{ list: newState.attributeList } },
+          { ...action, list: newState.attributeList },
         );
       }
       break;

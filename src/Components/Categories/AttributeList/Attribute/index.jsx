@@ -25,9 +25,7 @@ const onChange = (value, dispatch, form) => {
   const validation = form.validate();
   const newValue = {
     ...value,
-    ...{
-      errors: validation.errors.filter(e => e.message),
-    },
+    errors: validation.errors.filter(e => e.message),
   };
   dispatch(updateAttribute(newValue.id, newValue));
 };

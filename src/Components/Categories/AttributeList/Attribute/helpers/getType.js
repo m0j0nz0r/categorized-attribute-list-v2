@@ -81,14 +81,12 @@ export default (attributes, attribute) => {
   }
 
   return t.struct({
-    ...{
-      name,
-      description,
-      deviceResourceType,
-      defaultValue,
-      dataType,
-      format,
-    },
+    name,
+    description,
+    deviceResourceType,
+    defaultValue,
+    dataType,
+    format,
     ...optionalFields,
   });
 };

@@ -10,7 +10,7 @@ const format = (state = defaultFields.format, action) => {
       switch (action.attribute.dataType) {
         case 'string':
         case 'object':
-          return { ...state, ...{ disabled: action.attribute.dataType === 'object' } };
+          return { ...state, disabled: action.attribute.dataType === 'object' };
         default:
           return state;
       }

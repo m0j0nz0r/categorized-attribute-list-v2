@@ -11,7 +11,7 @@ const defaultValue = (state = defaultFields.defaultValue, action) => {
       switch (action.attribute.dataType) {
         case 'string':
         case 'object':
-          updatedAttribute = { ...updatedAttribute, ...{ disabled: action.attribute.dataType === 'object' } };
+          updatedAttribute = { ...updatedAttribute, disabled: action.attribute.dataType === 'object' };
           break;
         default:
           // Do nothing.

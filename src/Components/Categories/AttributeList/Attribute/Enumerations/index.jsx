@@ -6,9 +6,9 @@ export default (locals) => {
     const value = input.value;
     if (value) {
       locals.onChange(
-        [...locals.value, ...[value]],
+        [...locals.value, value],
         locals.items.map(item => item.key),
-        [...locals.path, ...['']],
+        [...locals.path, ''],
         'add',
       );
       input.value = '';
