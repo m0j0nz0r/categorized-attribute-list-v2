@@ -36,12 +36,12 @@ const setFieldValidation = (fields, attribute, fieldName) => {
     if (Number.isNaN(Number(n))) {
       return 'Not a number';
     }
-    return getFieldValidationErrorString(field, n, attribute);
+    return getFieldValidationErrorString(fieldName, n, attribute);
   };
 };
 
 export default (fields, attribute) => {
   const fieldNames = Object.keys(fields);
-  const fieldValidationSetter = setFieldValidation.bind(fields, attribute);
+  const fieldValidationSetter = setFieldValidation.bind(this, fields, attribute);
   fieldNames.forEach(fieldValidationSetter);
 };
