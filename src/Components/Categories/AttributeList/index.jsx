@@ -5,11 +5,12 @@ import 'rc-collapse/assets/index.css';
 import DeleteButton from '../DeleteButton';
 import { expandAttribute } from '../../actions/actions';
 import Attribute from './Attribute';
+import { NEW_ATTRIBUTE } from '../../../config/strings';
 
 const getHeader = (attribute) => {
   const { name, description } = attribute;
   if (!name) {
-    return 'New attribute';
+    return NEW_ATTRIBUTE;
   }
   if (description) {
     return `${name}: ${description}`;
@@ -42,24 +43,6 @@ const mapDispatchToProps = dispatch => ({
   onChange: key => dispatch(expandAttribute(key)),
 });
 
-const CollapseWrapper = ({ attributeList }) => {
-  if (attributeList.length) {
-    const CollapseElement = connect(mapStateToProps, mapDispatchToProps)(Collapse);
-    return <CollapseElement />;
-  }
-  return (
-    <div
-      className="rc-collapse empty-message"
-    >
-      No attributes in current category
-    </div>
-  );
-};
-const AttributeList = connect(
-  state => ({ attributeList: getVisibleAttributes(
-    state.attributes.attributeList,
-    state.categories.selectedCategoryId,
-  ) }),
-)(CollapseWrapper);
+const AttributeList = connect(mapStateToProps, mapDispatchToProps)(Collapse);
 
 export default AttributeList;

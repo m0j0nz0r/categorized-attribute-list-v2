@@ -12,20 +12,32 @@ const SaveButton = connect(
 
 const makeTabs = tabList => tabList.map(tab => <Tab key={`tab-${tab.id}`}>{tab.name}</Tab>);
 
-const makeTabPanels = tabList => tabList.map(tab => (
-  <TabPanel key={`tabPanel-${tab.id}`}>
-    <AttributeList />
-    <AddButton />
-    <SaveButton />
-  </TabPanel>),
-);
-const makeTabsChildren = categories => [
+const makeTabPanels = (tabList, attributes) => tabList.map((tab) => {
+  let content = (
+    <div
+      className="rc-collapse empty-message"
+    >
+      No attributes in current category
+    </div>
+  );
+  if (attributes.filter(a => a.categoryId === tab.id).length) {
+    content = <AttributeList />;
+  }
+  return (
+    <TabPanel key={`tabPanel-${tab.id}`}>
+      {content}
+      <AddButton />
+      <SaveButton />
+    </TabPanel>
+  );
+});
+const makeTabsChildren = (categories, attributes) => [
   <TabList key="TabList">{makeTabs(categories)}</TabList>,
-  makeTabPanels(categories),
+  makeTabPanels(categories, attributes),
 ];
 
 const mapStateToProps = state => ({
-  children: makeTabsChildren(state.categories.categoryList),
+  children: makeTabsChildren(state.categories.categoryList, state.attributes.attributeList),
   selectedIndex: state.categories.selectedCategoryId,
   className: 'col-6',
 });

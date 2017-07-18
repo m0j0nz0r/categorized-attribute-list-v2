@@ -1,19 +1,44 @@
 import Enumerations from '../Components/Categories/AttributeList/Attribute/Enumerations';
-
+import {
+  CATEGORY_NAME_0,
+  CATEGORY_NAME_1,
+  CATEGORY_NAME_2,
+  NAME_FIELD_LABEL,
+  NAME_FIELD_PLACEHOLDER,
+  DESCRIPTION_FIELD_LABEL,
+  DESCRIPTION_FIELD_PLACEHOLDER,
+  DEVICE_RESOURCE_TYPE_FIELD_LABEL,
+  DEFAULT_VALUE_FIELD_LABEL,
+  DEFAULT_VALUE_FIELD_PLACEHOLDER,
+  DATA_TYPE_FIELD_LABEL,
+  FORMAT_FIELD_LABEL,
+  ENUMERATIONS_FIELD_LABEL,
+  ENUMERATIONS_FIELD_PLACEHOLDER,
+  MIN_RANGE_FIELD_LABEL,
+  MIN_RANGE_FIELD_PLACEHOLDER,
+  MAX_RANGE_FIELD_LABEL,
+  MAX_RANGE_FIELD_PLACEHOLDER,
+  UNIT_OF_MEASUREMENT_FIELD_LABEL,
+  UNIT_OF_MEASUREMENT_FIELD_PLACEHOLDER,
+  PRECISION_FIELD_LABEL,
+  PRECISION_FIELD_PLACEHOLDER,
+  ACCURACY_FIELD_LABEL,
+  ACCURACY_FIELD_PLACEHOLDER,
+} from './strings';
 
 export const categoriesInitialState = {
   categoryList: [
     {
       id: 0,
-      name: 'Category 1',
+      name: CATEGORY_NAME_0,
     },
     {
       id: 1,
-      name: 'Category 2',
+      name: CATEGORY_NAME_1,
     },
     {
       id: 2,
-      name: 'Category 3',
+      name: CATEGORY_NAME_2,
     },
   ],
   selectedCategoryId: 0,
@@ -21,70 +46,70 @@ export const categoriesInitialState = {
 
 export const fieldsInitialState = {
   name: {
-    label: 'Name',
+    label: NAME_FIELD_LABEL,
     attrs: {
-      placeholder: 'Enter a name',
+      placeholder: NAME_FIELD_PLACEHOLDER,
     },
   },
   description: {
-    label: 'Description',
+    label: DESCRIPTION_FIELD_LABEL,
     attrs: {
-      placeholder: 'Enter a description for your new attribute',
+      placeholder: DESCRIPTION_FIELD_PLACEHOLDER,
     },
   },
   deviceResourceType: {
-    label: 'Device Resource Type',
+    label: DEVICE_RESOURCE_TYPE_FIELD_LABEL,
     disabled: true,
   },
   defaultValue: {
-    label: 'Default value',
+    label: DEFAULT_VALUE_FIELD_LABEL,
     attrs: {
-      placeholder: 'Enter a default Value',
+      placeholder: DEFAULT_VALUE_FIELD_PLACEHOLDER,
     },
   },
   dataType: {
-    label: 'Data Type',
+    label: DATA_TYPE_FIELD_LABEL,
     nullOption: false,
   },
   format: {
-    label: 'Format',
+    label: FORMAT_FIELD_LABEL,
     nullOption: false,
   },
   enumerations: {
     template: Enumerations,
-    label: 'Enumerations',
+    label: ENUMERATIONS_FIELD_LABEL,
     attrs: {
-      placeholder: 'Enter value',
+      placeholder: ENUMERATIONS_FIELD_PLACEHOLDER,
     },
   },
   minRange: {
-    label: 'Min Range',
+    label: MIN_RANGE_FIELD_LABEL,
     attrs: {
-      placeholder: 'Min range',
+      placeholder: MIN_RANGE_FIELD_PLACEHOLDER,
     },
   },
   maxRange: {
-    label: 'Max Range',
+    label: MAX_RANGE_FIELD_LABEL,
     attrs: {
-      placeholder: 'Max range',
+      placeholder: MAX_RANGE_FIELD_PLACEHOLDER,
     },
   },
   unitOfMeasurement: {
-    label: 'Unit of Measurement',
+    label: UNIT_OF_MEASUREMENT_FIELD_LABEL,
     attrs: {
-      placeholder: 'UoM (eg. mm)',
+      placeholder: UNIT_OF_MEASUREMENT_FIELD_PLACEHOLDER,
     },
   },
   precision: {
-    label: 'Precision',
+    label: PRECISION_FIELD_LABEL,
     attrs: {
-      placeholder: 'Precision (eg. 0.5)',
+      placeholder: PRECISION_FIELD_PLACEHOLDER,
     },
   },
   accuracy: {
-    label: 'Accuracy',
+    label: ACCURACY_FIELD_LABEL,
     attrs: {
-      placeholder: 'Accuracy (eg. 0.5)',
+      placeholder: ACCURACY_FIELD_PLACEHOLDER,
     },
   },
 };

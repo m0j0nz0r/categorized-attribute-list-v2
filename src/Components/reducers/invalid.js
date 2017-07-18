@@ -10,24 +10,24 @@ const invalid = (state = attributesInitialState.invalid, action) => {
     case UPDATE_ATTRIBUTE:
     case DELETE_ATTRIBUTE:
       action.list.forEach(
-        (a) => {
-          hasError = a.errors && a.errors.filter(e => e.message !== 'Duplicated').length;
+        (attribute) => {
+          hasError = attribute.errors && attribute.errors.filter(error => error.message !== 'Duplicated').length;
           if (hasError && index === -1) {
-            newState.push(a.id);
+            newState.push(attribute.id);
           } else if (!hasError && index !== -1) {
             newState.splice(index, 1);
           }
-          if (dictionary[a.name]) {
-            dictionary[a.name].push(a.id);
+          if (dictionary[attribute.name]) {
+            dictionary[attribute.name].push(attribute.id);
           } else {
-            dictionary[a.name] = [a.id];
+            dictionary[attribute.name] = [attribute.id];
           }
         },
       );
       Object.keys(dictionary).forEach(
-        (n) => {
-          if (dictionary[n].length > 1) { // if there are any duplicates
-            dictionary[n].forEach((id) => {
+        (name) => {
+          if (dictionary[name].length > 1) { // if there are any duplicates
+            dictionary[name].forEach((id) => {
               index = newState.indexOf(id); // add each id to the invalid array as needed.
               if (index === -1) {
                 newState.push(id);

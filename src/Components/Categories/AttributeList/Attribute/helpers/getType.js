@@ -1,5 +1,18 @@
 import t from 'tcomb-form';
 import setNumberValidationMessages from './getValidation';
+import {
+  ERROR_REQUIRED,
+  ERROR_DUPLICATED,
+  DEVICE_RESOURCE_TYPE_VALUE_0,
+  DATA_TYPE_VALUE_0,
+  DATA_TYPE_VALUE_1,
+  FORMAT_VALUE_0,
+  FORMAT_VALUE_1,
+  FORMAT_VALUE_2,
+  FORMAT_VALUE_3,
+  FORMAT_VALUE_4,
+  FORMAT_VALUE_5,
+} from '../../../../../config/strings';
 
 export default (attributes, attribute) => {
   const name = t.refinement(
@@ -8,32 +21,32 @@ export default (attributes, attribute) => {
     );
   name.getValidationErrorMessage = (n) => {
     if (!n) {
-      return 'Required';
+      return ERROR_REQUIRED;
     }
     if (attributes.find(a => a.name === n && a.id !== attribute.id)) {
-      return 'Duplicated';
+      return ERROR_DUPLICATED;
     }
     return '';
   };
 
   const description = t.maybe(t.String);
 
-  const deviceResourceType = t.enums({ 0: 'DefaultValue' });
+  const deviceResourceType = t.enums({ 0: DEVICE_RESOURCE_TYPE_VALUE_0 });
 
   const defaultValue = t.maybe(t.String);
 
   const dataType = t.enums({
-    string: 'String',
-    object: 'Object',
+    string: DATA_TYPE_VALUE_0,
+    object: DATA_TYPE_VALUE_1,
   });
 
   const format = t.enums({
-    none: 'None',
-    number: 'Number',
-    boolean: 'Boolean',
-    dateTime: 'Date-Time',
-    cdata: 'CDATA',
-    uri: 'URI',
+    none: FORMAT_VALUE_0,
+    number: FORMAT_VALUE_1,
+    boolean: FORMAT_VALUE_2,
+    dateTime: FORMAT_VALUE_3,
+    cdata: FORMAT_VALUE_4,
+    uri: FORMAT_VALUE_5,
   });
 
   let optionalFields = {};

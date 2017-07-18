@@ -1,27 +1,25 @@
-const MIN_RANGE_INVALID = 'Min range is higher than Max Range';
-const MAX_RANGE_INVALID = 'Max range is lower than Max Range';
-const DOES_NOT_DIVIDE_RANGE = 'Does not divide range exactly';
+import { ERROR_MIN_RANGE_INVALID, ERROR_MAX_RANGE_INVALID, ERROR_DOES_NOT_DIVIDE_RANGE, ERROR_NOT_A_NUMBER } from '../../../../../config/strings';
 
 const getFieldValidationErrorString = (field, fieldValue, attribute) => {
   switch (field) {
     case 'minRange':
       if (fieldValue > attribute.maxRange) {
-        return MIN_RANGE_INVALID;
+        return ERROR_MIN_RANGE_INVALID;
       }
       break;
     case 'maxRange':
       if (fieldValue < attribute.minRange) {
-        return MAX_RANGE_INVALID;
+        return ERROR_MAX_RANGE_INVALID;
       }
       break;
     case 'precision':
       if (((attribute.maxRange - attribute.minRange) % fieldValue)) {
-        return DOES_NOT_DIVIDE_RANGE;
+        return ERROR_DOES_NOT_DIVIDE_RANGE;
       }
       break;
     case 'accuracy':
       if (((attribute.maxRange - attribute.minRange) % fieldValue)) {
-        return DOES_NOT_DIVIDE_RANGE;
+        return ERROR_DOES_NOT_DIVIDE_RANGE;
       }
       break;
     default:
@@ -34,7 +32,7 @@ const setFieldValidation = (fields, attribute, fieldName) => {
   const field = fields[fieldName];
   field.getValidationErrorMessage = (n) => {
     if (Number.isNaN(Number(n))) {
-      return 'Not a number';
+      return ERROR_NOT_A_NUMBER;
     }
     return getFieldValidationErrorString(fieldName, n, attribute);
   };

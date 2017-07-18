@@ -7,7 +7,7 @@ export default (locals) => {
     if (value) {
       locals.onChange(
         [...locals.value, ...[value]],
-        locals.items.map(i => i.key),
+        locals.items.map(item => item.key),
         [...locals.path, ...['']],
         'add',
       );
@@ -19,11 +19,11 @@ export default (locals) => {
       <input ref={(element) => { input = element; }} type="string" />
       <button type={locals.add.type} onClick={addItem}>{locals.add.label}</button>
       {locals.items.map(
-        (i, index) => (
-          <div key={i.key}>
-            <button type={i.buttons[0].type} onClick={i.buttons[0].click}>x</button>
+        (item, index) => (
+          <div key={item.key}>
+            <button type={item.buttons[0].type} onClick={item.buttons[0].click}>x</button>
             {locals.value[index]}
-            <div style={{ display: 'none' }}>{i.input}</div>
+            <div style={{ display: 'none' }}>{item.input}</div>
           </div>
         ),
       )}

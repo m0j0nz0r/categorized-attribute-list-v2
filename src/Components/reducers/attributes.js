@@ -45,22 +45,13 @@ const attributes = (state = attributesInitialState, action) => {
           }
 
           if (attribute.format !== action.attribute.format) {
-            switch (action.attribute.format) {
-              case 'number':
-                updatedAttribute.minRange = defaultValue.minRange;
-                updatedAttribute.maxRange = defaultValue.maxRange;
-                updatedAttribute.unitOfMeasurement = defaultValue.unitOfMeasurement;
-                updatedAttribute.precision = defaultValue.precision;
-                updatedAttribute.accuracy = defaultValue.accuracy;
-                break;
-              default:
-                updatedAttribute.enumerations = [];
-                updatedAttribute.minRange = null;
-                updatedAttribute.maxRange = null;
-                updatedAttribute.unitOfMeasurement = null;
-                updatedAttribute.precision = null;
-                updatedAttribute.accuracy = null;
-            }
+            const numFields = ['minRange', 'maxRange', 'unitOfMeasurement', 'precision', 'accuracy'];
+
+            numFields.forEeach((field) => {
+              updatedAttribute[field] = action.attribute.format === 'number' ? defaultValue[field] : null;
+            });
+            
+            updatedAttribute.enumerations = [];
           }
           updatedAttribute = { ...attribute, ...updatedAttribute };
           return { ...attribute, ...updatedAttribute };
