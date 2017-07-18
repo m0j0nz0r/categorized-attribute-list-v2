@@ -2,7 +2,7 @@ import { attributesInitialState } from '../../config/config';
 import { UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE } from '../actions/actionTypes';
 
 const invalid = (state = attributesInitialState.invalid, action) => {
-  const dictionary = {};
+  const nameDictionary = {};
   const newState = [];
   let dictionaryKeys;
   let index = state.indexOf(action.id);
@@ -17,16 +17,16 @@ const invalid = (state = attributesInitialState.invalid, action) => {
         } else if (!hasError && index !== -1) {
           newState.splice(index, 1);
         }
-        if (dictionary[name]) {
-          dictionary[name].push(id);
+        if (nameDictionary[name]) {
+          nameDictionary[name].push(id);
         } else {
-          dictionary[name] = [id];
+          nameDictionary[name] = [id];
         }
       }
-      dictionaryKeys = Object.keys(dictionary);
+      dictionaryKeys = Object.keys(nameDictionary);
       for (const name of dictionaryKeys) {
-        if (dictionary[name].length > 1) { // if there are any duplicates
-          for (const id of dictionary[name]) {
+        if (nameDictionary[name].length > 1) { // if there are any duplicates
+          for (const id of nameDictionary[name]) {
             index = newState.indexOf(id); // add each id to the invalid array as needed.
             if (index === -1) {
               newState.push(id);
