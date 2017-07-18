@@ -41,5 +41,7 @@ const setFieldValidation = (fields, attribute, fieldName) => {
 export default (fields, attribute) => {
   const fieldNames = Object.keys(fields);
   const fieldValidationSetter = setFieldValidation.bind(this, fields, attribute);
-  fieldNames.forEach(fieldValidationSetter);
+  for (const fieldName of fieldNames) {
+    fieldValidationSetter(fieldName);
+  }
 };

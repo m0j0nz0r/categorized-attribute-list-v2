@@ -47,10 +47,10 @@ const attributes = (state = attributesInitialState, action) => {
           if (attribute.format !== action.attribute.format) {
             const numFields = ['minRange', 'maxRange', 'unitOfMeasurement', 'precision', 'accuracy'];
 
-            numFields.forEach((field) => {
+            for (const field of numFields) {
               updatedAttribute[field] = action.attribute.format === 'number' ? defaultValue[field] : null;
-            });
-            
+            }
+
             updatedAttribute.enumerations = [];
           }
           updatedAttribute = { ...attribute, ...updatedAttribute };
