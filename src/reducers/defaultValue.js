@@ -1,4 +1,4 @@
-import { fieldsInitialState } from '../../config/config';
+import { fieldsInitialState } from '../config/config';
 import { UPDATE_ATTRIBUTE } from '../actions/actionTypes';
 
 const defaultFields = fieldsInitialState;

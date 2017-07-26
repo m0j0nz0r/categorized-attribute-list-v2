@@ -1,4 +1,10 @@
-import { ERROR_MIN_RANGE_INVALID, ERROR_MAX_RANGE_INVALID, ERROR_DOES_NOT_DIVIDE_RANGE, ERROR_NOT_A_NUMBER } from '../../../../../config/strings';
+import {
+  ERROR_MIN_RANGE_INVALID,
+  ERROR_MAX_RANGE_INVALID,
+  ERROR_DOES_NOT_DIVIDE_RANGE,
+  ERROR_NOT_A_NUMBER,
+  ERROR_REQUIRED,
+} from '../config/strings';
 
 const getFieldValidationErrorString = (field, fieldValue, attribute) => {
   switch (field) {
@@ -31,6 +37,9 @@ const getFieldValidationErrorString = (field, fieldValue, attribute) => {
 const setFieldValidation = (fields, attribute, fieldName) => {
   const field = fields[fieldName];
   field.getValidationErrorMessage = (n) => {
+    if (n === null) {
+      return ERROR_REQUIRED;
+    }
     if (Number.isNaN(Number(n))) {
       return ERROR_NOT_A_NUMBER;
     }
@@ -41,7 +50,7 @@ const setFieldValidation = (fields, attribute, fieldName) => {
 export default (fields, attribute) => {
   const fieldNames = Object.keys(fields);
   const fieldValidationSetter = setFieldValidation.bind(this, fields, attribute);
-  for (const fieldName of fieldNames) {
-    fieldValidationSetter(fieldName);
+  for (let i = 0, iLen = fieldNames.length; i < iLen; i += 1) {
+    fieldValidationSetter(fieldNames[i]);
   }
 };

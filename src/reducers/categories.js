@@ -1,4 +1,4 @@
-import { categoriesInitialState } from '../../config/config';
+import { categoriesInitialState } from '../config/config';
 import { SELECT_CATEGORY } from '../actions/actionTypes';
 
 const categories = (state = categoriesInitialState, action) => {

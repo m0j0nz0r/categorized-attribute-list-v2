@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { fieldsInitialState } from '../../config/config';
+import { fieldsInitialState } from '../config/config';
 
 import defaultValue from './defaultValue';
 import format from './format';

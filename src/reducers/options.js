@@ -1,4 +1,4 @@
-import { optionsInitialState } from '../../config/config';
+import { optionsInitialState } from '../config/config';
 import fields from './fieldsReducer';
 
 const options = (state = optionsInitialState, action) => {

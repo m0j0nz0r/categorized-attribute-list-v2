@@ -12,18 +12,22 @@ import {
   FORMAT_VALUE_3,
   FORMAT_VALUE_4,
   FORMAT_VALUE_5,
-} from '../../../../../config/strings';
+} from '../config/strings';
+import { attributesInitialState } from '../config/config';
 
-export default (attributes, attribute) => {
+export default (
+  attributes = attributesInitialState.attributeList,
+  attribute = attributesInitialState.defaultValue,
+) => {
   const name = t.refinement(
     t.String,
-    n => !attributes.find(a => a.name === n && a.id !== attribute.id),
-    );
+    n => !attributes.some(a => a.name === n && a.id !== attribute.id),
+  );
   name.getValidationErrorMessage = (n) => {
     if (!n) {
       return ERROR_REQUIRED;
     }
-    if (attributes.find(a => a.name === n && a.id !== attribute.id)) {
+    if (attributes.some(a => a.name === n && a.id !== attribute.id)) {
       return ERROR_DUPLICATED;
     }
     return '';

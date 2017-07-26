@@ -1,37 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
-import { updateAttribute } from '../../../actions/actions';
-import getType from './helpers/getType';
+import { updateAttribute } from '../../../../actions/actions';
+import { ERROR_DUPLICATED } from '../../../../config/strings';
 
 const Form = t.form.Form;
-
 
 const mapStateToProps = (state, ownProps) => {
   const attribute = state.attributes.attributeList.find(
     currentAttribute => currentAttribute.id === ownProps.id,
   );
   const { currentAttributeId, attributeList, form } = state.attributes;
+  const { options, type } = form;
   return {
     currentAttributeId,
-    type: getType(attributeList, attribute),
-    options: form.options,
+    type,
+    options,
     value: attribute,
+    attributeList,
     ref: (localForm) => { this.form = localForm; },
   };
 };
 
-const onChange = (value, dispatch, form) => {
-  const validation = form.validate();
-  const newValue = {
-    ...value,
-    errors: validation.errors.filter(e => e.message),
-  };
-  dispatch(updateAttribute(newValue.id, newValue));
+const onChange = (attribute, attributeList, dispatch, form) => {
+  const validation = form.validate().errors.filter(e => e.message && e.message !== ERROR_DUPLICATED);
+  dispatch(updateAttribute(attribute, attributeList, validation));
 };
 
 const mapDispatchToProps = dispatch => ({
-  onChange: (value, form) => onChange(value, dispatch, form),
+  onChange: (attribute, attributeList, form) => onChange(attribute, attributeList, dispatch, form),
 });
 
 class FormWrapper extends React.Component {
@@ -48,11 +46,11 @@ class FormWrapper extends React.Component {
     }
   }
 
-  onChange(value) {
-    this.props.onChange(value, this.form);
+  onChange(attribute) {
+    this.props.onChange(attribute, this.props.attributeList, this.form);
   }
   render() {
-    const { type, options, value} = this.props;
+    const { type, options, value } = this.props;
     return (
       <Form
         onChange={this.onChange}
@@ -64,5 +62,19 @@ class FormWrapper extends React.Component {
     );
   }
 }
+
+FormWrapper.propTypes = {
+  type: PropTypes.func.isRequired,
+  options: PropTypes.shape({}).isRequired,
+  value: PropTypes.shape({}).isRequired,
+  attributeList: PropTypes.arrayOf(PropTypes.object),
+  onChange: PropTypes.func.isRequired,
+  currentAttributeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+FormWrapper.defaultProps = {
+  attributeList: [],
+  currentAttributeId: null,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWrapper);

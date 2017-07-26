@@ -119,7 +119,7 @@ export const optionsInitialState = {
   fields: fieldsInitialState,
 };
 export const attributesInitialState = {
-  invalid: [],
+  invalid: {},
   defaultValue: {
     name: '',
     description: null,
@@ -143,5 +143,8 @@ export const attributesInitialState = {
 export const initialState = {
   categories: categoriesInitialState,
   attributes: attributesInitialState,
+};
+export const settings = {
+  accordion: true,
 };
 

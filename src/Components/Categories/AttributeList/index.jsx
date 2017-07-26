@@ -3,9 +3,10 @@ import Collapse from 'rc-collapse';
 import { connect } from 'react-redux';
 import 'rc-collapse/assets/index.css';
 import DeleteButton from '../DeleteButton';
-import { expandAttribute } from '../../actions/actions';
+import { expandAttribute } from '../../../actions/actions';
 import Attribute from './Attribute';
 import { NEW_ATTRIBUTE } from '../../../config/strings';
+import { settings } from '../../../config/config';
 
 const getHeader = (attribute) => {
   const { name, description } = attribute;
@@ -21,7 +22,7 @@ const getHeader = (attribute) => {
 const getPanel = attribute => (
   <Collapse.Panel key={attribute.id} header={getHeader(attribute)}>
     <Attribute id={attribute.id} />
-    <DeleteButton />
+    <DeleteButton id={attribute.id} />
   </Collapse.Panel>
 );
 
@@ -31,7 +32,7 @@ const getVisibleAttributes = (
 ) => attributes.filter(attribute => attribute.categoryId === categoryId);
 
 const mapStateToProps = state => ({
-  accordion: true,
+  accordion: settings.accordion,
   activeKey: state.attributes.currentAttributeId,
   children: getVisibleAttributes(
     state.attributes.attributeList,
