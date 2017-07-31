@@ -7,39 +7,29 @@ import { ERROR_DUPLICATED } from '../../../../config/strings';
 
 const Form = t.form.Form;
 
-const mapStateToProps = (state, ownProps) => {
-  const attribute = state.attributes.attributeList.find(
-    currentAttribute => currentAttribute.id === ownProps.id,
-  );
-  const { currentAttributeId, attributeList, form } = state.attributes;
-  const { options, type } = form;
-  return {
-    currentAttributeId,
-    type,
-    options,
-    value: attribute,
-    attributeList,
-    ref: (localForm) => { this.form = localForm; },
-  };
-};
-
-const onChange = (attribute, attributeList, dispatch, form) => {
-  const validation = form.validate().errors.filter(e => e.message && e.message !== ERROR_DUPLICATED);
-  dispatch(updateAttribute(attribute, attributeList, validation));
-};
-
-const mapDispatchToProps = dispatch => ({
-  onChange: (attribute, attributeList, form) => onChange(attribute, attributeList, dispatch, form),
-});
+const getValueFromProps = ({ attributeList, id }) => attributeList.find(
+  currentAttribute => currentAttribute.id === id,
+);
 
 class FormWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.state = {
+      value: getValueFromProps(props),
+    };
   }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      value: getValueFromProps(props),
+    });
+  }
+
   componentDidUpdate(prevProps) {
     // If we are coming onto this attribute from another, revalidate.
-    const { value, currentAttributeId } = this.props;
+    const { currentAttributeId } = this.props;
+    const value = getValueFromProps(this.props);
     if (Number(currentAttributeId) === value.id &&
       currentAttributeId !== prevProps.currentAttributeId) {
       this.onChange(value);
@@ -49,8 +39,10 @@ class FormWrapper extends React.Component {
   onChange(attribute) {
     this.props.onChange(attribute, this.props.attributeList, this.form);
   }
+
   render() {
-    const { type, options, value } = this.props;
+    const { type, options } = this.props;
+    const { value } = this.state;
     return (
       <Form
         onChange={this.onChange}
@@ -66,7 +58,6 @@ class FormWrapper extends React.Component {
 FormWrapper.propTypes = {
   type: PropTypes.func.isRequired,
   options: PropTypes.shape({}).isRequired,
-  value: PropTypes.shape({}).isRequired,
   attributeList: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   currentAttributeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -75,6 +66,30 @@ FormWrapper.propTypes = {
 FormWrapper.defaultProps = {
   attributeList: [],
   currentAttributeId: null,
+};
+
+const onChange = (attribute, attributeList, dispatch, form) => {
+  const validation = form.validate().errors.filter(
+    e => e.message && e.message !== ERROR_DUPLICATED,
+  );
+  dispatch(updateAttribute(attribute, attributeList, validation));
+};
+
+const mapDispatchToProps = dispatch => ({
+  onChange: (attribute, attributeList, form) => onChange(attribute, attributeList, dispatch, form),
+});
+
+const mapStateToProps = (state, props) => {
+  const { currentAttributeId, attributeList, form } = state.attributes;
+  const { options, type } = form;
+  return {
+    currentAttributeId,
+    type,
+    options,
+    id: props.id,
+    attributeList,
+    ref: (localForm) => { this.form = localForm; },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWrapper);

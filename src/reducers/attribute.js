@@ -12,7 +12,7 @@ const attribute = (state = attributesInitialState.defaultValue, action) => {
       changes.defaultValue = null;
       changes.format = 'none';
     }
-    if (formatChanged) {
+    if (formatChanged || dataTypeChanged) {
       const numFields = ['minRange', 'maxRange', 'unitOfMeasurement', 'precision', 'accuracy'];
 
       for (let i = 0, iLen = numFields.length; i < iLen; i += 1) {

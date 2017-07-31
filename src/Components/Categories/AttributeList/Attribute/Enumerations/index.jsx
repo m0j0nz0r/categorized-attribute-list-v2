@@ -14,6 +14,7 @@ export default (locals) => {
       input.value = '';
     }
   };
+
   return (
     <div>
       <input ref={(element) => { input = element; }} type="string" />

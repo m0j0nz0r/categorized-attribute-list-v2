@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { connect } from 'react-redux';
 import 'react-tabs/style/react-tabs.css';
@@ -17,6 +18,7 @@ const hasErrors = (attributeList) => {
   }
   return false;
 };
+
 const SaveButton = connect(
   state => ({ disabled: hasErrors(state.attributes.attributeList, state.attributes.invalid) }),
 )(({ disabled }) => <button className={`material-icons btn ${disabled ? 'btn-default active' : 'btn-success'}`} disabled={disabled}>save</button>);
@@ -32,7 +34,7 @@ const makeTabPanels = (tabList, attributes) => tabList.map((tab) => {
     </div>
   );
   if (attributes.filter(a => a.categoryId === tab.id).length) {
-    content = <AttributeList />;
+    content = <AttributeList categoryId={tab.id} />;
   }
   return (
     <TabPanel key={`tabPanel-${tab.id}`}>
@@ -42,20 +44,42 @@ const makeTabPanels = (tabList, attributes) => tabList.map((tab) => {
     </TabPanel>
   );
 });
-const makeTabsChildren = (categories, attributes) => [
-  <TabList key="TabList">{makeTabs(categories)}</TabList>,
-  makeTabPanels(categories, attributes),
-];
+
+const TabsContainer = ({ selectedIndex, categoryList, attributeList, onSelect }) => (
+  <Tabs
+    selectedIndex={selectedIndex}
+    className="col-6"
+    onSelect={onSelect}
+  >
+    <TabList>{makeTabs(categoryList)}</TabList>
+    {makeTabPanels(categoryList, attributeList)}
+  </Tabs>
+);
+
+TabsContainer.propTypes = {
+  selectedIndex: PropTypes.number,
+  categoryList: PropTypes.arrayOf(PropTypes.object),
+  attributeList: PropTypes.arrayOf(PropTypes.object),
+  onSelect: PropTypes.func,
+};
+
+TabsContainer.defaultProps = {
+  selectedIndex: null,
+  categoryList: [],
+  attributeList: [],
+  onSelect: null,
+};
 
 const mapStateToProps = ({ categories, attributes }) => ({
-  children: makeTabsChildren(categories.categoryList, attributes.attributeList),
+  categoryList: categories.categoryList,
+  attributeList: attributes.attributeList,
   selectedIndex: categories.selectedCategoryId,
-  className: 'col-6',
 });
+
 const mapDispatchToProps = dispatch => ({
   onSelect: index => dispatch(selectCategory(index)),
 });
 
-const Categories = connect(mapStateToProps, mapDispatchToProps)(Tabs);
+const Categories = connect(mapStateToProps, mapDispatchToProps)(TabsContainer);
 
 export default Categories;

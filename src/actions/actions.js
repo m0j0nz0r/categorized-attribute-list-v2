@@ -6,10 +6,12 @@ export const createAttribute = (categoryId, nextAttributeId, attributeList) => (
   id: nextAttributeId,
   attributeList,
 });
+
 export const expandAttribute = id => ({
   type: EXPAND_ATTRIBUTE,
   id,
 });
+
 export const updateAttribute = (attribute, attributeList, errors) =>
 ({
   type: UPDATE_ATTRIBUTE,
@@ -17,5 +19,6 @@ export const updateAttribute = (attribute, attributeList, errors) =>
   attributeList,
   errors,
 });
+
 export const deleteAttribute = id => ({ type: DELETE_ATTRIBUTE, id });
 export const selectCategory = id => ({ type: SELECT_CATEGORY, id });

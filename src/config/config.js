@@ -1,4 +1,5 @@
 import Enumerations from '../Components/Categories/AttributeList/Attribute/Enumerations';
+
 import {
   CATEGORY_NAME_0,
   CATEGORY_NAME_1,
@@ -118,6 +119,7 @@ export const optionsInitialState = {
   auto: 'placeholders',
   fields: fieldsInitialState,
 };
+
 export const attributesInitialState = {
   invalid: {},
   defaultValue: {
@@ -140,10 +142,12 @@ export const attributesInitialState = {
     options: optionsInitialState,
   },
 };
+
 export const initialState = {
   categories: categoriesInitialState,
   attributes: attributesInitialState,
 };
+
 export const settings = {
   accordion: true,
 };
