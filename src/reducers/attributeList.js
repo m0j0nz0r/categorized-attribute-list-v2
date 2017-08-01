@@ -1,6 +1,10 @@
 import attribute from './attribute';
 import { attributesInitialState } from '../config/config';
-import { CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE } from '../actions/actionTypes';
+import {
+  CREATE_ATTRIBUTE,
+  UPDATE_ATTRIBUTE,
+  DELETE_ATTRIBUTE,
+} from '../actions/actionTypes';
 
 const attributeList = (state = attributesInitialState.attributeList, action) => {
   const attributeIndex = state.findIndex(

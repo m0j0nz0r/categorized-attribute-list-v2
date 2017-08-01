@@ -1,9 +1,9 @@
 import Enumerations from '../Components/Categories/AttributeList/Attribute/Enumerations';
 
 import {
-  CATEGORY_NAME_0,
-  CATEGORY_NAME_1,
-  CATEGORY_NAME_2,
+  CATEGORY_NAME_CATEGORY_1,
+  CATEGORY_NAME_CATEGORY_2,
+  CATEGORY_NAME_CATEGORY_3,
   NAME_FIELD_LABEL,
   NAME_FIELD_PLACEHOLDER,
   DESCRIPTION_FIELD_LABEL,
@@ -31,15 +31,15 @@ export const categoriesInitialState = {
   categoryList: [
     {
       id: 0,
-      name: CATEGORY_NAME_0,
+      name: CATEGORY_NAME_CATEGORY_1,
     },
     {
       id: 1,
-      name: CATEGORY_NAME_1,
+      name: CATEGORY_NAME_CATEGORY_2,
     },
     {
       id: 2,
-      name: CATEGORY_NAME_2,
+      name: CATEGORY_NAME_CATEGORY_3,
     },
   ],
   selectedCategoryId: 0,

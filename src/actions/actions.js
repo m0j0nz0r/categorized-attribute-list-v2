@@ -1,4 +1,10 @@
-import { CREATE_ATTRIBUTE, EXPAND_ATTRIBUTE, UPDATE_ATTRIBUTE, DELETE_ATTRIBUTE, SELECT_CATEGORY } from './actionTypes';
+import {
+  CREATE_ATTRIBUTE,
+  EXPAND_ATTRIBUTE,
+  UPDATE_ATTRIBUTE,
+  DELETE_ATTRIBUTE,
+  SELECT_CATEGORY,
+} from './actionTypes';
 
 export const createAttribute = (categoryId, nextAttributeId, attributeList) => ({
   type: CREATE_ATTRIBUTE,

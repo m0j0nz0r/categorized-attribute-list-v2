@@ -1,4 +1,7 @@
-import { EXPAND_ATTRIBUTE, CREATE_ATTRIBUTE } from '../actions/actionTypes';
+import {
+  EXPAND_ATTRIBUTE,
+  CREATE_ATTRIBUTE,
+} from '../actions/actionTypes';
 
 const currentAttributeId = (state = null, action) => {
   switch (action.type) {

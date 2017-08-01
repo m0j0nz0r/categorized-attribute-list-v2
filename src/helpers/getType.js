@@ -3,15 +3,15 @@ import setNumberValidationMessages from './getValidation';
 import {
   ERROR_REQUIRED,
   ERROR_DUPLICATED,
-  DEVICE_RESOURCE_TYPE_VALUE_0,
-  DATA_TYPE_VALUE_0,
-  DATA_TYPE_VALUE_1,
-  FORMAT_VALUE_0,
-  FORMAT_VALUE_1,
-  FORMAT_VALUE_2,
-  FORMAT_VALUE_3,
-  FORMAT_VALUE_4,
-  FORMAT_VALUE_5,
+  DEVICE_RESOURCE_TYPE_DEFAULT_VALUE,
+  DATA_TYPE_VALUE_STRING,
+  DATA_TYPE_VALUE_OBJECT,
+  FORMAT_VALUE_NONE,
+  FORMAT_VALUE_NUMBER,
+  FORMAT_VALUE_BOOLEAN,
+  FORMAT_VALUE_DATETIME,
+  FORMAT_VALUE_CDATA,
+  FORMAT_VALUE_URI,
 } from '../config/strings';
 import { attributesInitialState } from '../config/config';
 
@@ -35,22 +35,22 @@ export default (
 
   const description = t.maybe(t.String);
 
-  const deviceResourceType = t.enums({ 0: DEVICE_RESOURCE_TYPE_VALUE_0 });
+  const deviceResourceType = t.enums({ 0: DEVICE_RESOURCE_TYPE_DEFAULT_VALUE });
 
   const defaultValue = t.maybe(t.String);
 
   const dataType = t.enums({
-    string: DATA_TYPE_VALUE_0,
-    object: DATA_TYPE_VALUE_1,
+    string: DATA_TYPE_VALUE_STRING,
+    object: DATA_TYPE_VALUE_OBJECT,
   });
 
   const format = t.enums({
-    none: FORMAT_VALUE_0,
-    number: FORMAT_VALUE_1,
-    boolean: FORMAT_VALUE_2,
-    dateTime: FORMAT_VALUE_3,
-    cdata: FORMAT_VALUE_4,
-    uri: FORMAT_VALUE_5,
+    none: FORMAT_VALUE_NONE,
+    number: FORMAT_VALUE_NUMBER,
+    boolean: FORMAT_VALUE_BOOLEAN,
+    dateTime: FORMAT_VALUE_DATETIME,
+    cdata: FORMAT_VALUE_CDATA,
+    uri: FORMAT_VALUE_URI,
   });
 
   let optionalFields = {};

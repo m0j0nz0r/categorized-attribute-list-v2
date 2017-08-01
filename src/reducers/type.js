@@ -1,4 +1,7 @@
-import { CREATE_ATTRIBUTE, UPDATE_ATTRIBUTE } from '../actions/actionTypes';
+import {
+  CREATE_ATTRIBUTE,
+  UPDATE_ATTRIBUTE,
+} from '../actions/actionTypes';
 import getType from '../helpers/getType';
 
 const type = (state = {}, action) => {

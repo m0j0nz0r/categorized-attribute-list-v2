@@ -11,18 +11,18 @@ export const ERROR_NO_ATTRIBUTES = 'No attributes in current category';
 export const NEW_ATTRIBUTE = 'New attribute';
 
 // Select options strings in getType.js
-export const DEVICE_RESOURCE_TYPE_VALUE_0 = 'DefaultValue';
-export const DATA_TYPE_VALUE_0 = 'String';
-export const DATA_TYPE_VALUE_1 = 'Object';
-export const FORMAT_VALUE_0 = 'None';
-export const FORMAT_VALUE_1 = 'Number';
-export const FORMAT_VALUE_2 = 'Boolean';
-export const FORMAT_VALUE_3 = 'Date-Time';
-export const FORMAT_VALUE_4 = 'CDATA';
-export const FORMAT_VALUE_5 = 'URI';
-export const CATEGORY_NAME_0 = 'Category 1';
-export const CATEGORY_NAME_1 = 'Category 2';
-export const CATEGORY_NAME_2 = 'Category 3';
+export const DEVICE_RESOURCE_TYPE_DEFAULT_VALUE = 'DefaultValue';
+export const DATA_TYPE_VALUE_STRING = 'String';
+export const DATA_TYPE_VALUE_OBJECT = 'Object';
+export const FORMAT_VALUE_NONE = 'None';
+export const FORMAT_VALUE_NUMBER = 'Number';
+export const FORMAT_VALUE_BOOLEAN = 'Boolean';
+export const FORMAT_VALUE_DATETIME = 'Date-Time';
+export const FORMAT_VALUE_CDATA = 'CDATA';
+export const FORMAT_VALUE_URI = 'URI';
+export const CATEGORY_NAME_CATEGORY_1 = 'Category 1';
+export const CATEGORY_NAME_CATEGORY_2 = 'Category 2';
+export const CATEGORY_NAME_CATEGORY_3 = 'Category 3';
 
 // Field config strings for labels and placeholders in config.js
 export const NAME_FIELD_LABEL = 'Name';
