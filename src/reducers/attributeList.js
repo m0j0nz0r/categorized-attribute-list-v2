@@ -1,5 +1,6 @@
 import attribute from './attribute';
 import { attributesInitialState } from '../config/config';
+import { NEW_ATTRIBUTE } from '../config/strings';
 import {
   CREATE_ATTRIBUTE,
   UPDATE_ATTRIBUTE,
@@ -21,7 +22,7 @@ const attributeList = (state = attributesInitialState.attributeList, action) => 
             id: action.id,
             categoryId: action.categoryId,
             ...attributesInitialState.defaultValue,
-            errors: ['New attribute'],
+            errors: [NEW_ATTRIBUTE],
           },
         ],
       ];

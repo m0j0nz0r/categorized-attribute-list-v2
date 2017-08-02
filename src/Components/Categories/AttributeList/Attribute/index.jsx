@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import t from 'tcomb-form';
 import { updateAttribute } from '../../../../actions/actions';
-import { ERROR_DUPLICATED } from '../../../../config/strings';
+import { ERROR_DUPLICATED, NEW_ATTRIBUTE } from '../../../../config/strings';
 
 const Form = t.form.Form;
 
@@ -15,9 +15,17 @@ class FormWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    const value = getValueFromProps(props);
     this.state = {
-      value: getValueFromProps(props),
+      value,
     };
+  }
+
+  componentDidMount() {
+    const value = this.state.value;
+    if (value.errors[0] !== NEW_ATTRIBUTE) {
+      this.onChange(value);
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -29,10 +37,12 @@ class FormWrapper extends React.Component {
   componentDidUpdate(prevProps) {
     // If we are coming onto this attribute from another, revalidate.
     const { currentAttributeId } = this.props;
-    const value = getValueFromProps(this.props);
-    if (Number(currentAttributeId) === value.id &&
-      currentAttributeId !== prevProps.currentAttributeId) {
-      this.onChange(value);
+    const { currentAttributeId: prevAttributeId } = prevProps;
+    const value = this.state.value;
+    if (Number(currentAttributeId)) {
+      if (currentAttributeId !== prevAttributeId) {
+        this.onChange(value);
+      }
     }
   }
 
