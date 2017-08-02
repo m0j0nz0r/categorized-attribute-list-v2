@@ -14,6 +14,7 @@ import {
   FORMAT_VALUE_URI,
 } from '../config/strings';
 import { attributesInitialState } from '../config/config';
+import { isRangeValid } from './sharedFunctions';
 
 export default (
   attributes = attributesInitialState.attributeList,
@@ -65,8 +66,8 @@ export default (
         break;
       case 'number':
         optionalFields = {
-          minRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && n < maxRange),
-          maxRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && n > minRange),
+          minRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && isRangeValid(n, maxRange)),
+          maxRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && isRangeValid(minRange, n)),
           unitOfMeasurement: t.String,
           precision: t.refinement(
             t.Number,

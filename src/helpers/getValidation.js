@@ -5,16 +5,17 @@ import {
   ERROR_NOT_A_NUMBER,
   ERROR_REQUIRED,
 } from '../config/strings';
+import { isRangeValid } from './sharedFunctions';
 
 const getFieldValidationErrorString = (field, fieldValue, attribute) => {
   switch (field) {
     case 'minRange':
-      if (fieldValue > attribute.maxRange) {
+      if (isRangeValid(fieldValue, attribute.maxRange)) {
         return ERROR_MIN_RANGE_INVALID;
       }
       break;
     case 'maxRange':
-      if (fieldValue < attribute.minRange) {
+      if (isRangeValid(attribute.minRange, fieldValue)) {
         return ERROR_MAX_RANGE_INVALID;
       }
       break;
