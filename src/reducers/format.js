@@ -6,7 +6,6 @@ const defaultFields = fieldsInitialState;
 const format = (state = defaultFields.format, action) => {
   switch (action.type) {
     case UPDATE_ATTRIBUTE:
-      // Data type logic.
       switch (action.attribute.dataType) {
         case 'string':
         case 'object':
