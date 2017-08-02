@@ -1,21 +1,12 @@
 import { fieldsInitialState } from '../config/config';
-import { UPDATE_ATTRIBUTE } from '../actions/actionTypes';
+import disableFieldOnDataTypeObject from './disableFieldOnDataTypeObject';
 
 const defaultFields = fieldsInitialState;
 
-const defaultValue = (state = defaultFields.defaultValue, action) => {
-  let updatedAttribute = { ...state, ...action.attribute };
-  switch (action.type) {
-    case UPDATE_ATTRIBUTE:
-      switch (action.attribute.dataType) {
-        case 'string':
-        case 'object':
-          updatedAttribute = { ...updatedAttribute, disabled: action.attribute.dataType === 'object' };
-          break;
-      }
-      break;
-  }
-  return updatedAttribute;
-};
+const defaultValue = (state = defaultFields.defaultValue, action) =>
+({
+  ...state,
+  ...disableFieldOnDataTypeObject(state, action),
+});
 
 export default defaultValue;
