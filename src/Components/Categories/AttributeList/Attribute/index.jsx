@@ -40,7 +40,8 @@ class FormWrapper extends React.Component {
     const { currentAttributeId: prevAttributeId } = prevProps;
     const value = this.state.value;
     if (currentAttributeId !== null && value.id === Number(currentAttributeId)) {
-      if (currentAttributeId !== prevAttributeId) {
+      if (currentAttributeId !== prevAttributeId ||
+        value.format !== getValueFromProps(prevProps).format) {
         this.onChange(value);
       }
     }

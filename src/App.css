@@ -63,3 +63,6 @@
 .enumeration-item>button {
   margin-right: 15px;
 }
+.danger {
+  background-color: #f2dede;
+}
