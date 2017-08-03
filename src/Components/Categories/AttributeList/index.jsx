@@ -21,7 +21,7 @@ const getHeader = (attribute) => {
 };
 
 const getPanel = attribute => (
-  <Collapse.Panel key={attribute.id} header={getHeader(attribute)} headerClass={attribute.errors.length ? 'danger' : ''}>
+  <Collapse.Panel key={attribute.id} header={getHeader(attribute)}>
     <Attribute id={attribute.id} />
     <DeleteButton id={attribute.id} />
   </Collapse.Panel>
