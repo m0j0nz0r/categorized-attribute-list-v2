@@ -54,3 +54,12 @@
 .rc-collapse > .rc-collapse-item:last-child {
     border-bottom: 1px solid #d9d9d9;
 }
+.row {
+  padding: 15px;
+}
+.enumeration-item {
+  padding-top: 15px;
+}
+.enumeration-item>button {
+  margin-right: 15px;
+}

@@ -21,7 +21,7 @@ export default (locals) => {
       <button type={locals.add.type} onClick={addItem}>{locals.add.label}</button>
       {locals.items.map(
         (item, index) => (
-          <div key={item.key}>
+          <div className="enumeration-item"key={item.key}>
             <button type={item.buttons[0].type} onClick={item.buttons[0].click}>x</button>
             {locals.value[index]}
             <div style={{ display: 'none' }}>{item.input}</div>
