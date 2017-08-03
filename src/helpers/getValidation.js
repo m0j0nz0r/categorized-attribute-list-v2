@@ -11,12 +11,12 @@ const getFieldValidationErrorString = (field, fieldValue, attribute) => {
   const { minRange, maxRange } = attribute;
   switch (field) {
     case 'minRange':
-      if (isRangeValid(fieldValue, maxRange)) {
+      if (!isRangeValid(fieldValue, maxRange)) {
         return ERROR_MIN_RANGE_INVALID;
       }
       break;
     case 'maxRange':
-      if (isRangeValid(minRange, fieldValue)) {
+      if (!isRangeValid(minRange, fieldValue)) {
         return ERROR_MAX_RANGE_INVALID;
       }
       break;
