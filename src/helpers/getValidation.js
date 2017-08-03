@@ -32,7 +32,6 @@ const getFieldValidationErrorString = (field, fieldValue, attribute) => {
     default:
       return '';
   }
-  return '';
 };
 
 const setFieldValidation = (fields, attribute, fieldName) => {
