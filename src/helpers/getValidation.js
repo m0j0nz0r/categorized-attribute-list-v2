@@ -5,27 +5,28 @@ import {
   ERROR_NOT_A_NUMBER,
   ERROR_REQUIRED,
 } from '../config/strings';
-import { isRangeValid } from './sharedFunctions';
+import { isRangeValid, isPrecisionValid } from './sharedValidationFunctions';
 
 const getFieldValidationErrorString = (field, fieldValue, attribute) => {
+  const { minRange, maxRange } = attribute;
   switch (field) {
     case 'minRange':
-      if (isRangeValid(fieldValue, attribute.maxRange)) {
+      if (isRangeValid(fieldValue, maxRange)) {
         return ERROR_MIN_RANGE_INVALID;
       }
       break;
     case 'maxRange':
-      if (isRangeValid(attribute.minRange, fieldValue)) {
+      if (isRangeValid(minRange, fieldValue)) {
         return ERROR_MAX_RANGE_INVALID;
       }
       break;
     case 'precision':
-      if (((attribute.maxRange - attribute.minRange) % fieldValue)) {
+      if (!isPrecisionValid(minRange, maxRange, fieldValue)) {
         return ERROR_DOES_NOT_DIVIDE_RANGE;
       }
       break;
     case 'accuracy':
-      if (((attribute.maxRange - attribute.minRange) % fieldValue)) {
+      if (!isPrecisionValid(minRange, maxRange, fieldValue)) {
         return ERROR_DOES_NOT_DIVIDE_RANGE;
       }
       break;

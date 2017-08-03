@@ -14,7 +14,7 @@ import {
   FORMAT_VALUE_URI,
 } from '../config/strings';
 import { attributesInitialState } from '../config/config';
-import { isRangeValid } from './sharedFunctions';
+import { isRangeValid, isPrecisionValid } from './sharedValidationFunctions';
 
 export default (
   attributes = attributesInitialState.attributeList,
@@ -66,16 +66,18 @@ export default (
         break;
       case 'number':
         optionalFields = {
-          minRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && isRangeValid(n, maxRange)),
-          maxRange: t.refinement(t.Number, n => !Number.isNaN(Number(n)) && isRangeValid(minRange, n)),
+          minRange: t.refinement(t.Number, n =>
+            !Number.isNaN(Number(n)) && isRangeValid(n, maxRange)),
+          maxRange: t.refinement(t.Number, n =>
+            !Number.isNaN(Number(n)) && isRangeValid(minRange, n)),
           unitOfMeasurement: t.String,
           precision: t.refinement(
             t.Number,
-            n => !Number.isNaN(Number(n)) && !((maxRange - minRange) % n),
+            n => !Number.isNaN(Number(n)) && isPrecisionValid(minRange, maxRange, n),
           ),
           accuracy: t.refinement(
             t.Number,
-            n => !Number.isNaN(Number(n)) && !((maxRange - minRange) % n),
+            n => !Number.isNaN(Number(n)) && isPrecisionValid(minRange, maxRange, n),
           ),
         };
         setNumberValidationMessages(optionalFields, attribute);
