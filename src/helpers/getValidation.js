@@ -4,6 +4,8 @@ import {
   ERROR_DOES_NOT_DIVIDE_RANGE,
   ERROR_NOT_A_NUMBER,
   ERROR_REQUIRED,
+  ERROR_NEGATIVE,
+  ERROR_ZERO,
 } from '../config/strings';
 import { isRangeValid, isPrecisionValid } from './sharedValidationFunctions';
 
@@ -21,12 +23,14 @@ const getFieldValidationErrorString = (field, fieldValue, attribute) => {
       }
       break;
     case 'precision':
-      if (!isPrecisionValid(minRange, maxRange, fieldValue)) {
-        return ERROR_DOES_NOT_DIVIDE_RANGE;
-      }
-      break;
     case 'accuracy':
       if (!isPrecisionValid(minRange, maxRange, fieldValue)) {
+        if (fieldValue === 0) {
+          return ERROR_ZERO;
+        }
+        if (fieldValue < 0) {
+          return ERROR_NEGATIVE;
+        }
         return ERROR_DOES_NOT_DIVIDE_RANGE;
       }
       break;

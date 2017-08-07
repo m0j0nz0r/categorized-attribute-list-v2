@@ -6,6 +6,8 @@ export const ERROR_NOT_A_NUMBER = 'Not a number';
 export const ERROR_REQUIRED = 'Required';
 export const ERROR_DUPLICATED = 'Duplicated';
 export const ERROR_NO_ATTRIBUTES = 'No attributes in current category';
+export const ERROR_NEGATIVE = 'Negative value';
+export const ERROR_ZERO = 'Zero value';
 
 // Default string for attribute header when no name is specified.
 export const NEW_ATTRIBUTE = 'New attribute';
