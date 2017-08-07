@@ -10,6 +10,9 @@ import { ERROR_NO_ATTRIBUTES } from '../../config/strings';
 
 const hasErrors = (attributeList) => {
   const names = {};
+  if (attributeList.length === 0) {
+    return true;
+  }
   for (let i = 0, iLen = attributeList.length; i < iLen; i += 1) {
     const attribute = attributeList[i];
     if (attribute.errors && attribute.errors.length > 0) return true;
